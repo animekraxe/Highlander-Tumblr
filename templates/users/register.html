@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %} Highlander Tumblr - Register {% endblock %}
+
+{% block extra_css %}
+	<style type="text/css">
+	.form-horizontal {
+		background-color:#eee;
+		padding: 20px 20px;
+		margin: 225px auto;
+		max-width: 300px;
+	}
+
+	.form-horizontal input[type="text"],
+	.form-horizontal input[type="password"] {
+		margin-bottom: 15px;
+		padding: 7px 9px;
+	}
+		
+	</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<form action="/register/" method="POST" class="form-horizontal">
+		{% csrf_token %}
+		<h2> Registration Form </h2>
+		<h5> {{ invalid }} </h5>
+		<input type="text" class="input-block-level" name="username" id="id_username" value="{{ form.username.value }}" placeholder="Username">
+		<input type="password" class="input-block-level" name="password1" value="{{ form.password1.value }}" id="id_password1" placeholder="Password">
+		<input type="password" class="input-block-level" name="password2" value="{{ form.password2.value }}" id="id_password2" placeholder="Password (again)">
+		<input type="text" class="input-block-level"  name="email" value="{{ form.email.value }}" id="id_email" placeholder="Email">
+		<button type="submit" class="btn btn-large btn-primary"> Submit </button>
+
+		<!--
+		<div class="control-group">
+			<div class="controls">
+				<input type="text" name="registerUsername" id="id_registerUsername" value="" placeholder="Username">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<input type="password" name="registerPassword" id="id_registerPassword" placeholder="Password">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<input type="text" name="reEnterPassword" id="id_reEnterPassword" placeholder="Password (again)">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<input type="text" name="registerEmail" id="id_registerEmail" placeholder="Email">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn btn-large btn-primary"> Submit </button>
+			</div>
+		</div>
+
+		-->
+	</form>
+</div>
+{% endblock %}
