@@ -10,6 +10,8 @@ from django.core.files.storage import default_storage
 from blog.models import TextPost, PhotoPost, VideoPost, AudioPost, QuotePost, LinkPost, ChatPost
 from blog.forms import TextForm, PhotoForm, VideoForm, AudioForm, QuoteForm, LinkForm, ChatForm
 
+import threading
+
 amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
 
 # Upload to s3 using filepath starting from bucket root
@@ -18,6 +20,11 @@ def upload_to_s3(file, filepath):
 	for chunk in file.chunks():
 		destination.write(chunk)
 	destination.close()
+
+def s3_thread(file, filepath):
+	thread = threading.Thread(target=upload_to_s3,args=(file, filepath))
+	thread.daemon = True
+	thread.start()
 
 # Delete from s3 using filepath starting from bucket root
 def delete_from_s3(filepath):
@@ -96,7 +103,7 @@ def new_photo_post(request):
 											author=request.user)
 
 			filepath = "%s/image/%s/%s" % (request.user.username, str(post.id), file.name)
-			upload_to_s3(file, filepath)
+			s3_thread(file, filepath)
 			post.url = amazon_url + filepath
 			post.save()
 			return HttpResponseRedirect('/dashboard/')
@@ -121,7 +128,7 @@ def new_video_post(request):
 											description=description,
 											author=request.user)
 			filepath = "%s/video/%s/%s" % (request.user.username, str(post.id), file.name)
-			upload_to_s3(file, filepath)
+			s3_thread(file, filepath)
 			post.url = amazon_url + filepath
 			post.save()
 			return HttpResponseRedirect('/dashboard/')
@@ -147,7 +154,7 @@ def new_audio_post(request):
 											description=description,
 											author=request.user)
 			filepath = "%s/audio/%s/%s" % (request.user.username, str(post.id), file.name)
-			upload_to_s3(file, filepath)
+			s3_thread(file, filepath)
 			post.url = amazon_url + filepath
 			post.save()
 			return HttpResponseRedirect('/dashboard/')
@@ -220,8 +227,4 @@ def new_chat_post(request):
 	return render_to_response('blog/chatform.html',
 							  {'form':form, 'invalid':invalid},
 							  context_instance=RequestContext(request))
-
-
-
-
 
