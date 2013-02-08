@@ -134,6 +134,8 @@ INSTALLED_APPS = (
 	'users',
 	'dashboard',
 	'blog',
+	'storages',
+	'taggit',
 )
 
 # A sample logging configuration. The only tangible logging
