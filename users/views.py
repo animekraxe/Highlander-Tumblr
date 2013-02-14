@@ -65,9 +65,9 @@ def editProfilePhoto(request):
 			userName = request.user.username
 			return HttpResponseRedirect("/%s/profile/" % userName)
 	else:
-		form = ImageForm()
+		forms = ImageForm()
 	return render_to_response("users/editprofile.html",
-							  {'users':request.user,'form':form},
+							  {'users':request.user,'form':forms},
 							  context_instance=RequestContext(request))
 
 # registration page
