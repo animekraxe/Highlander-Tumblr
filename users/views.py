@@ -16,7 +16,7 @@ from utils.shortcuts import *
 def profile(request, username):
     user = get_object_or_404(User,username=username)
     userprofile = get_object_or_404(UserProfile,user=user)
-    return render_to_response('users/profile.html', {'user':user, 'userprofile':userprofile}, context_instance=RequestContext(request))
+    return render_to_response('users/profile.html', {'user':user, 'userprofile':userprofile, 'request':request}, context_instance=RequestContext(request))
 
 # login page
 def log_in(request):
