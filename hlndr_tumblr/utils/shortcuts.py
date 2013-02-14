@@ -61,3 +61,27 @@ def sort_posts_by_newest(posts):
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	return posts
 
+# post is a taggable object
+# tags is a string that contains tag_tokens
+def save_tags (post, tags):
+	tag_tokens = []
+	tmp = ""
+	for i in range(0, len(tags)):
+		if (tags[i] == ','):
+			tmp = tmp.strip()
+			if (len(tmp) > 0):
+				tag_tokens.append(tmp)
+				tmp = ""
+		elif (i == len(tags)-1):
+			tmp = tmp + tags[i]
+			tmp = tmp.strip()
+			if (len(tmp) > 0):
+				tag_tokens.append(tmp)
+				tmp = ""
+		else:
+			tmp = tmp + tags[i]
+
+	for i in range(0, len(tag_tokens)):
+		post.tags.add(tag_tokens[i]);
+		
+	post.save();

@@ -40,7 +40,7 @@ def viewposts(request, username):
 			posts = sort_posts_by_oldest(posts)
 		elif query == 'search':
 			# Implement search by tags here
-			tags = request.POST['searchbox'].split()
+			tag = request.POST['searchbox']
 		else:
 			posts = sort_posts_by_newest(posts)
 	else:
