@@ -1,0 +1,58 @@
+<DOCTYPE html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>{% block title %} Highlander Tumblr {% endblock %}</title>
+		<!-- #2D6CC0 UCR Blue -->
+		<!-- #F1AB00 UCR Gold -->
+		
+		<style type="text/css">
+
+		#page-container {
+			background-color: #2D6CC0;
+		}
+		
+		body {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+		}
+
+		.container-fluid,
+		.row-fluid { height: inherit; }
+	
+		</style>
+
+		{% block extra_css %}
+		{% endblock %}	
+
+		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap.css" />
+		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap-responsive.css" />
+		<script src="http://api.html5media.info/1.1.5/html5media.min.js"></script>	
+	</head>
+
+	<body id="page-container">
+		<div class="container-fluid" id="page-container">
+			<ul class="breadcrumb">
+				<li><a href="/login/">Login</a><span class="divider"></span></li>
+				<li><a href="/register/">Register</a><span class="divider"></span></li>
+				<li><a href="/dashboard/">Dashboard</a><span class="divider"></span></li>
+				{% block breadcrumbs %}
+				{% endblock %}
+			</ul>
+		
+			<div class="row-fluid">
+			{% block content %}
+			{% endblock %}
+			</div>
+	</div>
+		<script src="{{ STATIC_PREFIX }}js/bootstrap.js"></script>
+		{% block extra_js %}
+		{% endblock %}
+	</body>
+</html>
+	
