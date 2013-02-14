@@ -90,9 +90,7 @@ def register(request):
 			email = form.cleaned_data['email']
 		
 			# Validate unique user	
-			try:
-				User.objects.get(username=username)
-			except User.DoesNotExist:
+			if User.objects.filter(username=username).count() == 1:
 				return render_to_response('users/register.html',
 				     					  {'form':form,
 						    			   'invalid':"User already exists"},
