@@ -40,7 +40,8 @@ def new_text_post(request):
 										   text=text,
 										   author=request.user,)
 			tags = form.cleaned_data['tags']
-				
+			save_tags(post,tags)
+						
 			return HttpResponseRedirect('/dashboard/')
 		else:
 			invalid = "No text in post"
@@ -64,6 +65,7 @@ def new_photo_post(request):
 											caption=caption,
 											author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			filepath = "%s/image/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
@@ -91,6 +93,7 @@ def new_video_post(request):
 											description=description,
 											author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			filepath = "%s/video/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
@@ -119,6 +122,7 @@ def new_audio_post(request):
 											description=description,
 											author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			filepath = "%s/audio/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
@@ -145,6 +149,7 @@ def new_quote_post(request):
 										    source=source,
 											author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			return HttpResponseRedirect('/dashboard/')
 		else:
@@ -169,6 +174,7 @@ def new_link_post(request):
 										   description=description,
 										   author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			return HttpResponseRedirect('/dashboard/')
 		else:
@@ -191,6 +197,7 @@ def new_chat_post(request):
 										   chat=chat,
 										   author=request.user)
 			tags = form.cleaned_data['tags']
+			save_tags(post,tags)
 
 			return HttpResponseRedirect('/dashboard/')
 		else:

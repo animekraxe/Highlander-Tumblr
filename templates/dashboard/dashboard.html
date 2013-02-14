@@ -22,7 +22,7 @@
 	<div class="row-fluid">
 		<div class="well span12">
 			<div class="span8">
-				<h2 style="padding-left:20px;"> Dashboard </h2>
+				<h2 style="padding-left:20px;">{% block dash_head %} Dashboard {% endblock %}</h2>
 				<div class="btn-group span8">
 					<a href="/new/text" class="btn"> Text Post </a>
 					<a href="/new/photo" class="btn"> Photo Post </a>
@@ -103,6 +103,11 @@
 						<h5> {{ post.chat|linebreaksbr }} </h5>	
 
 					{% endif %}
+					<h5>
+					{% for tag in post.tags.all %}
+					<small style="color:#EC3B86;">#{{tag.name}} </small>
+					{% endfor %}
+					</h5>
 				</div>
 				{% endfor %}
 			{% endblock %}

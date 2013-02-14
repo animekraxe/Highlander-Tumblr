@@ -100,6 +100,12 @@
 							<h5> {{ post.chat|linebreaksbr }} </h5>	
 
 					{% endif %}
+					
+					<h5>
+					{% for tag in post.tags.all %}
+					<small style="color:#EC3B86;">#{{ tag.name }} </small>
+					{% endfor %}
+					</h5>
 				</div>
 				{% endfor %}
 		</div>
@@ -107,7 +113,11 @@
 			<ul class="thumbnails">
 				<li class="span" style="padding:20px 20px 0px;">
 					<a href="/{{ author.username }}/profile/" class="thumbnail">
+						{% if author.userprofile.avatar == "" %}
 						<img src="../../static/img/default_avatar.png" class="img-rounded"></img>
+						{% else %}
+						<img src="{{ author.userprofile.avatar }}" class="img-rounded"></img>
+						{% endif %}
 					</a>
 				</li>
 				<li class="span" style="padding:0px 20px;">	
