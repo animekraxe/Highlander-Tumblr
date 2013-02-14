@@ -88,7 +88,15 @@ def register(request):
 			# Django User Data
 			username = form.cleaned_data['username']
 			email = form.cleaned_data['email']
-			
+		
+			# Validate unique user	
+			try:
+				User.objects.get(username=username)
+			except User.DoesNotExist:
+				return render_to_response('users/register.html',
+				     					  {'form':form,
+						    			   'invalid':"User already exists"},
+							    		   context_instance=RequestContext(request))
 			# User Profile Data
 			birthday = form.cleaned_data['birthday']
 			nickname = form.cleaned_data['nickname']
