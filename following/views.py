@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from users.models import UserProfile
-from blog.views import get_post_list_by_author, delete_post
 
 @login_required(login_url='/login/')
 def following(request):

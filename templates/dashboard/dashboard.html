@@ -43,6 +43,18 @@
 				</div>
 			</div>
 			{% block dashboard_content %}
+			<div class="container span12">
+			<form method='POST' action=".">
+			{% csrf_token %}
+				<div class="input-prepend input-append" style="padding:20px 20px;">
+					<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
+					<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
+					<input class="span3" name="searchbox" id="appendedInputButtons" type="text">
+					<button class="btn btn-primary" type="submit" name="searchbar" value="search">Search</button>
+				</div>
+			</form>
+			</div>
+
 			<div class="span8">
 			<div></div>
 				{% for post in posts %}

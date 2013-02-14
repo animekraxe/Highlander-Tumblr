@@ -53,7 +53,7 @@ def get_followed_posts(user):
 		posts += get_user_posts(author.user)
 	return posts
 
-def get_user_posts_by_tag(user,tag):
+def get_user_posts_by_tag(author,tag):
 	textposts = list(author.textpost_set.filter(tags__name__in=[tag]))
 	photoposts = list(author.photopost_set.filter(tags__name__in=[tag]))
 	videoposts = list(author.videopost_set.filter(tags__name__in=[tag]))
