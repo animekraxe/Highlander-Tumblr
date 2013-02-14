@@ -1,10 +1,9 @@
-# Create your views here.
+#Create your views here.
 from django.http import HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
-from blog.views import get_post_list_by_author, delete_post
 from utils.shortcuts import *
 
 @login_required(login_url='/login/')
@@ -12,7 +11,7 @@ def dashboard(request):
 	if request.user.is_authenticated():
 		user = request.user
 
-	posts = sort_posts_by_newest(get_followed_posts(user) + get_post_list_by_author(user))
+	posts = sort_posts_by_newest(get_followed_posts(user) + get_user_posts(user))
 		
 	return render_to_response('dashboard/dashboard.html',
 							  {'posts':posts},
@@ -20,7 +19,7 @@ def dashboard(request):
 
 @login_required(login_url='/login/')
 def deletepost(request, post_type, post_id):
-	posts = get_post_list_by_author(request.user)
+	posts = get_user_posts(request.user)
 	for post in posts:
 		if post.classname().lower() == post_type:
 			if post.id == int(post_id):
@@ -30,7 +29,7 @@ def deletepost(request, post_type, post_id):
 
 @login_required(login_url='/login/')
 def viewposts(request, username):
-	posts = get_post_list_by_author(request.user)
+	posts = get_user_posts(request.user)
 
 	if request.method == 'POST':
 		query = request.POST['searchbar']
@@ -40,7 +39,13 @@ def viewposts(request, username):
 			posts = sort_posts_by_oldest(posts)
 		elif query == 'search':
 			# Implement search by tags here
-			tag = request.POST['searchbox']
+			tags = request.POST['searchbox']
+			taglist = get_tag_list(tags)
+
+			posts = []
+			for tag in taglist:
+				posts += get_followed_posts_by_tag(request.user,tag)
+				posts += get_user_posts_by_tag(request.user,tag)	
 		else:
 			posts = sort_posts_by_newest(posts)
 	else:
