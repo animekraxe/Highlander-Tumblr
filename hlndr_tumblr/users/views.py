@@ -16,7 +16,7 @@ from utils.shortcuts import *
 def profile(request, username):
     user = get_object_or_404(User,username=username)
     userprofile = get_object_or_404(UserProfile,user=user)
-    return render_to_response('users/profile.html', {'user':user, 'userprofile':userprofile}, context_instance=RequestContext(request))
+    return render_to_response('users/profile.html', {'user':user, 'userprofile':userprofile, 'request':request}, context_instance=RequestContext(request))
 
 # login page
 def log_in(request):
@@ -65,9 +65,9 @@ def editProfilePhoto(request):
 			userName = request.user.username
 			return HttpResponseRedirect("/%s/profile/" % userName)
 	else:
-		form = ImageForm()
+		forms = ImageForm()
 	return render_to_response("users/editprofile.html",
-							  {'users':request.user,'form':form},
+							  {'users':request.user,'form':forms},
 							  context_instance=RequestContext(request))
 
 # registration page
@@ -88,7 +88,13 @@ def register(request):
 			# Django User Data
 			username = form.cleaned_data['username']
 			email = form.cleaned_data['email']
-			
+		
+			# Validate unique user	
+			if User.objects.filter(username=username).count() == 1:
+				return render_to_response('users/register.html',
+				     					  {'form':form,
+						    			   'invalid':"User already exists"},
+							    		   context_instance=RequestContext(request))
 			# User Profile Data
 			birthday = form.cleaned_data['birthday']
 			nickname = form.cleaned_data['nickname']

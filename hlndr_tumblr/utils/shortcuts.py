@@ -35,7 +35,7 @@ def delete_post(post):
 
 #Gets every post type from a particular author and returns them in a list
 #Not garunteed to be sorted
-def get_post_list_by_author(author):
+def get_user_posts(author):
 	textposts = list(author.textpost_set.all())
 	photoposts = list(author.photopost_set.all())
 	videoposts = list(author.videopost_set.all())
@@ -50,7 +50,24 @@ def get_followed_posts(user):
 	following = user.userprofile.following.all()
 	posts = []
 	for author in following:
-		posts += get_post_list_by_author(author.user)
+		posts += get_user_posts(author.user)
+	return posts
+
+def get_user_posts_by_tag(author,tag):
+	textposts = list(author.textpost_set.filter(tags__name__in=[tag]))
+	photoposts = list(author.photopost_set.filter(tags__name__in=[tag]))
+	videoposts = list(author.videopost_set.filter(tags__name__in=[tag]))
+	audioposts = list(author.audiopost_set.filter(tags__name__in=[tag]))
+	quoteposts = list(author.quotepost_set.filter(tags__name__in=[tag]))
+	linkposts = list(author.linkpost_set.filter(tags__name__in=[tag]))
+	chatposts = list(author.chatpost_set.filter(tags__name__in=[tag]))
+	return textposts + photoposts + videoposts + audioposts + quoteposts + linkposts + chatposts
+
+def get_followed_posts_by_tag(user,tag):
+	following = user.userprofile.following.all()
+	posts = []
+	for author in following:
+		posts += get_user_posts_by_tag(author.user,tag)
 	return posts
 
 def sort_posts_by_oldest(posts):
@@ -61,9 +78,7 @@ def sort_posts_by_newest(posts):
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	return posts
 
-# post is a taggable object
-# tags is a string that contains tag_tokens
-def save_tags (post, tags):
+def get_tag_list(tags):
 	tag_tokens = []
 	tmp = ""
 	for i in range(0, len(tags)):
@@ -81,7 +96,16 @@ def save_tags (post, tags):
 		else:
 			tmp = tmp + tags[i]
 
+	return tag_tokens
+
+# post is a taggable object
+# tags is a string that contains tag_tokens
+def save_tags (post, tags):
+	tag_tokens = get_tag_list(tags)
+
 	for i in range(0, len(tag_tokens)):
 		post.tags.add(tag_tokens[i]);
 		
 	post.save();
+
+

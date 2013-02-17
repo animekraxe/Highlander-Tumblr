@@ -17,7 +17,7 @@ amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
 # displays a users blog page if user exists
 def blogpage(request,username):
 	author = get_object_or_404(User,username=username)
-	posts = get_post_list_by_author(author)
+	posts = get_user_posts(author)
 
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
