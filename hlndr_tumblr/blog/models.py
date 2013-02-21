@@ -30,6 +30,9 @@ class TextPost(models.Model):
 	def classname(self):
 		return self.__class__.__name__
 
+	def like_post(self, user):
+		Like.objects.get_or_create(textpost=self, user=user)
+
 	def tempate_html_as_post(self):
 		html = """
 			   <h3> {{ post.title }} </h3>
@@ -54,6 +57,9 @@ class PhotoPost(models.Model):
 
 	def classname(self):
 		return self.__class__.__name__
+	
+	def like_post(self, user):
+		Like.objects.get_or_create(photopost=self, user=user)
 
 class VideoPost(models.Model):
 	filename = models.CharField(max_length=100)
@@ -151,7 +157,7 @@ class Like(models.Model):
 	user = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return self.user.username + ',' + self.get_post().classname
+		return self.user.username + ',' + self.get_post().classname()
 
 	def get_post(self):
 		if self.textpost != None:
@@ -184,7 +190,7 @@ class Comment(models.Model):
 	comment = models.TextField()
 
 	def __unicode__(self):
-		return self.user.username + ',' + self.get_post().classname
+		return self.user.username + ',' + self.get_post().classname()
 
 	def get_post(self):
 		if self.textpost != None:
