@@ -1,0 +1,37 @@
+{% extends 'dashboard/dashboard.html' %}
+
+{% block title %} Messages &middot; Highlandr {% endblock %}
+
+{% block extra_css %}
+<style>
+	#message-container {
+		background-color:#BAC397;
+		padding: 10px 10px 30px;
+	}
+
+	#title, #sender, #message{
+		margin: 0px;
+		padding: 0px;
+	}
+
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+	<div class="span8" style="margin: 10px;">
+		<center>
+		<a href="/messages/compose/" class="btn btn-primary btn-large"><i class="icon-pencil icon-white"></i> Compose</a>
+		</center>
+	</div>
+
+	{% for message in message_list %}
+	<div class="hero-unit span8" id="message-container">
+		<h6 align="right" id="sender"> <a href="/{{ message.sender }}/">{{ message.sender }}</a></h6>
+		<h5 id="title" style="line-height: 15px"> 
+			{{ message.title }}
+			<hr style="margin: 10px 0px;">
+			{{ message.message }}
+		</h5>
+	</div>
+	{% endfor %}
+{% endblock %}

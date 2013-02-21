@@ -19,8 +19,17 @@ class RegisterForm(forms.Form):
 	
 class ImageForm(forms.Form):
 	image = forms.FileField(required=True)
+
+class ProfileForm(forms.Form):
+	blogname = forms.CharField(max_length=100, required=False)
+	nickname = forms.CharField(required=False)
+	email = forms.EmailField(required=False)
+	interests = forms.CharField(max_length=300, required=False)	
 	
-	
+class PasswordForm(forms.Form):
+	password1 = forms.CharField(required=True)
+	password2 = forms.CharField(required=True)
+		
 class LoginForm(forms.Form):
 	username = forms.RegexField(regex=r'^[\w.@+-]+$',
 								max_length=30,

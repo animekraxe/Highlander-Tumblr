@@ -8,12 +8,6 @@
 	background-color:#2A4480;
 }
 
-#profileblock {
-	background-color:#35C0CD;
-	padding: 50px 50px;
-	margin: 20px auto 0px;
-}
-
 </style>
 {% endblock %}
 
@@ -22,12 +16,47 @@
 <div class="container span8">
 	<div class="row-fluid span12" style="min-height: 100%; margin:auto auto;">
 		<div class="well container-fluid span8" style="background-color:#e7dd68;">
-			<form action="/editphoto/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+
+			<form action="/editprofile/" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				{% csrf_token %}
 				<h3> Profile Image (200 x 200): </h3>
-				{{ form.image }}
-				<button type="submit" class="btn btn-inverse btn-block-level"> Upload </button>
+				{{ imageform.image }}
+				<button type="submit" name="edit_action" value="avatar" class="btn btn-inverse btn-block-level"> Upload </button>
 			</form>
+
+			<hr>
+
+			<form action="/editprofile/" method="POST" class="form-horizontal">
+				{% csrf_token %}
+				<strong>{{ blog_message }}</strong>
+				<h4> Blog Title: </h4>
+				<input type="text" name="blogname" class="input-block-level span5" placeholder="Blog Title" value="{{ blog.title }}">
+				<h5> Nickname </h5>
+				<input type="text" name="nickname" class="input-block-level span5" placeholder="Nickname" value="{{ user.userprofile.nickname }}">
+				<h5> Email </h5>
+				<input type="email" name="email" class="input-block-level span5" placeholder="Email" value="{{ user.email }}">
+				<h5> Interests </h5>
+				<textarea name="interests" class="span5" rows="5" placeholder="Interests, Comma, Separated">{{ user.userprofile.interests }}</textarea>
+				<br><br>
+				<button type="submit" name="edit_action" value="profile" class="btn btn-inverse btn-block-level"> Save </button>
+			</form>
+
+			<hr>
+
+			<form action="/editprofile/" method="POST">
+				{% csrf_token %}
+				<strong>{{ password_message }}</strong>
+				<h5> Change Password: </h5>
+				<input type="password" name="password1" class="input-block-level span4" placeholder="Password">
+				<input type="password" name="password2" class="input-block-level span4" placeholder="Password(again)">
+				<br><br>
+				<button type="submit" name="edit_action" value="password" class="btn btn-inverse btn-block-level"> Change Password </button>
+			</form> 
+			
+			<hr>
+
+			<a href="/dashboard/" class="btn btn-block-level"> Cancel </a>
+
 		</div>
 	</div>
 </div>

@@ -20,9 +20,52 @@
 
 <div class="container fill" id="mainbody">
 	<div class="row-fluid">
-		<div class="well span12">
+		<div class="well span12" style="background-color:#eee;">
+
+		<h2>{% block dash_head %} Dashboard {% endblock %}</h2>
+
+		<div class="container">
+			<ul class="nav nav-pills">
+			
+				<li> <a href="/{{ user.username }}/"> Blog </a> </li>
+				<li> <a href="/dashboard/"> Dashboard </a> </li>
+
+				
+				<li class="dropdown">
+					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-comment"></i> Post<b class="caret"></b></a>
+					<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+						<li role="presentation"><a role="menuitem" href="/new/text/">Text</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/photo/">Photo</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/quote/">Quote</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/link/">Link</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/chat/">Chat</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/audio/">Audio</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/video/">Video</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-list-alt"></i> Menu<b class="caret"></b></a>
+					<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+						<li role="presentation"><a role="menuitem" href="/logout/">Logout</a></li>
+						<li role="presentation" class="divider"></li>
+						<li role="presentation"><a role="menuitem" href="/{{user.username}}/posts/">Posts</a></li>
+						<li role="presentation"><a role="menuitem" href="/{{user.username}}/profile/">Profile</a></li>
+						<li role="presentation"><a role="menuitem" href="/following/">Following</a></li>
+						<li role="presentation"><a role="menuitem" href="/messages/">Messages</a></li>
+					</ul>
+				</li>
+			
+			<!--	
+				<li> <a href="/friends/">6 New Friend Request</a></li>
+				<li> <a href="/messages/">3 New Messages </a> </li>
+			-->
+
+			</ul>				
+		</div>
+
+		<hr style="border-color:#997D83;"> 
+<!--
 			<div class="span8">
-				<h2 style="padding-left:20px;">{% block dash_head %} Dashboard {% endblock %}</h2>
 				<div class="btn-group span8">
 					<a href="/new/text" class="btn"> Text Post </a>
 					<a href="/new/photo" class="btn"> Photo Post </a>
@@ -40,22 +83,28 @@
 					<a href="/{{ user.username }}/posts/" class="btn btn-info"> Posts </a>
 					<a href="/{{user.username}}/profile/" class="btn btn-info">Profile</a>
 		    	<a href="/following/" class="btn btn-info">Following</a>
+					<a href="/messages/" class="btn btn-info">Messages</a>
 				</div>
 			</div>
+-->
+
+
+
+
 			{% block dashboard_content %}
-			<div class="container span12">
+			<div class="container span8" style="margin: auto;">	
 			<form method='POST' action=".">
 			{% csrf_token %}
 				<div class="input-prepend input-append" style="padding:20px 20px;">
 					<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
 					<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
-					<input class="span3" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
-					<button class="btn btn-primary" type="submit" name="searchbar" value="search">Search</button>
+					<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
+					<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search </button>
 				</div>
 			</form>
 			</div>
 
-			<div class="span8">
+			<div class="span8" style="margin: auto;">
 			<div></div>
 				{% for post in posts %}
 					<div class="well container-fluid span" id="blogpost">

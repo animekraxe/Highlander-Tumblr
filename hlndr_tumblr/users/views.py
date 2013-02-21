@@ -8,15 +8,107 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 # from users.models import User
-from users.forms import RegisterForm, LoginForm, ImageForm
+from users.forms import RegisterForm, LoginForm, ImageForm, ProfileForm, PasswordForm
 from users.models import UserProfile
 
 from utils.shortcuts import *
 
+from blog.models import Blog
+
+# display profile page
 def profile(request, username):
     user = get_object_or_404(User,username=username)
     userprofile = get_object_or_404(UserProfile,user=user)
     return render_to_response('users/profile.html', {'user':user, 'userprofile':userprofile, 'request':request}, context_instance=RequestContext(request))
+
+# display edit profile page and form
+@login_required(login_url='/login/')
+def edit_profile(request):
+	if request.method == 'POST':
+		# Get form type by submit request
+		edit_action = request.POST['edit_action']
+		if edit_action == "avatar":
+			forms = ImageForm(request.POST, request.FILES)
+		elif edit_action == "profile":
+			forms = ProfileForm(request.POST)
+		elif edit_action == "password":
+			forms = PasswordForm(request.POST)
+		else:
+			return HttpResponseRedirect("/editprofile/")
+		
+		# Validate form
+		if forms.is_valid():
+			
+			if edit_action == "avatar":
+				file = request.FILES['image']
+				#we may want to add an id field here to prevent user from accidently overriding
+				filePath = "%s/ProfilePhoto/%s" % (request.user.username, file.name)
+				s3_thread(file, filePath)
+				request.user.userprofile.avatar = amazon_url + filePath
+				request.user.userprofile.save()
+				userName = request.user.username
+				return HttpResponseRedirect("/%s/profile/" % userName)
+			
+			if edit_action == "profile":
+				blogname = forms.cleaned_data['blogname']
+				nickname = forms.cleaned_data['nickname']
+				email = forms.cleaned_data['email']
+				interests = forms.cleaned_data['interests']
+
+				# save blog
+				user_blog = request.user.blog_set.get(pk=1)	
+				user_blog.title = blogname if blogname != user_blog.title else user_blog.title
+				user_blog.save()
+				
+				# save user information
+				user = request.user
+				user.email = email if user.email != email else user.email
+				user.save()
+
+				# save profile information
+				userprofile = request.user.userprofile
+				userprofile.nickname = nickname if userprofile.nickname != nickname else userprofile.nickname
+				userprofile.interests = interests if userprofile.interests != interests else userprofile.interests
+				userprofile.save()
+				
+				return HttpResponseRedirect('/dashboard/')
+
+			if edit_action == "password":
+				return save_password_form(request, forms)
+					
+	imageform = ImageForm()
+	profileform = ProfileForm()
+	passwordform = PasswordForm()
+
+	blog = request.user.blog_set.get(pk=1)
+
+	return render_to_response("users/editprofile.html",
+							  {'user':request.user, 'blog':blog,
+							  'imageform':imageform,'profileform':profileform,'passwordform':passwordform},
+							  context_instance=RequestContext(request))
+
+def save_password_form(request, form):
+	password1 = form.cleaned_data['password1']
+	password2 = form.cleaned_data['password2']
+
+	if password1 != password2:	
+		password_message = "Password mismatch"
+	else:
+		password_message = "Password Changed Successfully"
+		request.user.set_password(password1)
+		request.user.save()
+
+	return render_to_response("users/editprofile.html",
+							  {'user':request.user, 'imageform':ImageForm(), 
+							   'profileform':ProfileForm(), 'passwordform':PasswordForm(), 'password_message':password_message},
+							  context_instance=RequestContext(request))
+
+# display list of friends page
+@login_required(login_url='/friends/')
+def friends(request):
+	return render_to_response('users/friends.html',
+							  {'users':request.user},
+							  context_instance=RequestContext(request))
 
 # login page
 def log_in(request):
@@ -50,25 +142,6 @@ def log_in(request):
 def log_out(request):
 	logout(request)
 	return HttpResponseRedirect('/')
-
-@login_required(login_url='/login/')
-def editProfilePhoto(request):
-	if request.method == 'POST':
-		forms = ImageForm(request.POST, request.FILES)
-		if forms.is_valid():
-			file = request.FILES['image']
-			#we may want to add an id field here to prevent user from accidently overriding
-			filePath = "%s/ProfilePhoto/%s" % (request.user.username, file.name)
-			s3_thread(file, filePath)
-			request.user.userprofile.avatar = amazon_url + filePath
-			request.user.userprofile.save()
-			userName = request.user.username
-			return HttpResponseRedirect("/%s/profile/" % userName)
-	else:
-		forms = ImageForm()
-	return render_to_response("users/editprofile.html",
-							  {'users':request.user,'form':forms},
-							  context_instance=RequestContext(request))
 
 # registration page
 def register(request):
@@ -113,6 +186,10 @@ def register(request):
 														nickname=nickname,
 														gender=gender,
 														interests=interests)
+			
+			# Create user's blog information
+			Blog.objects.create(author=user)
+	
 			return HttpResponseRedirect('/login/')
 		else:
 			return render_to_response('users/register.html',

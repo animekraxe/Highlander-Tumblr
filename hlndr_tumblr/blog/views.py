@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from blog.models import TextPost, PhotoPost, VideoPost, AudioPost, QuotePost, LinkPost, ChatPost
+from blog.models import Blog, TextPost, PhotoPost, VideoPost, AudioPost, QuotePost, LinkPost, ChatPost
 from blog.forms import TextForm, PhotoForm, VideoForm, AudioForm, QuoteForm, LinkForm, ChatForm
 from utils.shortcuts import *
 
@@ -18,12 +18,12 @@ amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
 def blogpage(request,username):
 	author = get_object_or_404(User,username=username)
 	posts = get_user_posts(author)
+	blog = get_object_or_404(Blog, author=author)
 
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	return render_to_response('blog/blogpage.html',
-							  {'author':author,
-							   'posts':posts,},
+							  {'author':author, 'posts':posts, 'blog':blog},
 							   context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
