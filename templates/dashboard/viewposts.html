@@ -23,19 +23,19 @@
 {% endblock %}
 
 	{% block dashboard_content %}	
-		<div class="container span12">
+		<div class="container span8" style="margin:auto;">
 		<form method='POST' action=".">
 		{% csrf_token %}
 			<div class="input-prepend input-append" style="padding:20px 20px;">
 				<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
 				<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
-				<input class="span3" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
-				<button class="btn btn-primary" type="submit" name="searchbar" value="search">Search</button>
+				<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
+				<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search</button>
 			</div>
 		</form>
 		</div>
 
-		<div class="container span8">
+		<div class="container span8" style="margin:auto;">
 			<div></div>
 
 				{% for post in posts %}

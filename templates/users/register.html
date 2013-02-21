@@ -16,13 +16,18 @@
 		margin-bottom: 15px;
 		padding: 7px 9px;
 	}
+
+	.input-block-level {
+		margin-bottom:20px;
+		padding-bottom: 20px;
+	}
 		
 	</style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-	<form action="/register/" method="POST" class="form-horizontal">
+<div class="well container span4 offset4">
+	<form action="/register/" method="POST">
 		{% csrf_token %}
 		<h2> Registration Form </h2>
 		<h5> {{ invalid }} </h5>
@@ -30,8 +35,9 @@
 		<input type="text" class="input-block-level" name="nickname" id="id_nickname" value="{{ form.nickname.value }}" placeholder="Nickname (optional)">
 		<input type="password" class="input-block-level" name="password1" value="{{ form.password1.value }}" id="id_password1" placeholder="Password">
 		<input type="password" class="input-block-level" name="password2" value="{{ form.password2.value }}" id="id_password2" placeholder="Password (again)">
-		<input type="text" class="input-block-level"  name="email" value="{{ form.email.value }}" id="id_email" placeholder="Email">
-		<input type="text" class="input-block-level" name="birthday" value="{{ form.email.birthday }}" id="id_birthday" placeholder="Birthday (MM/DD/YYYY)">
+		<input type="email" class="input-block-level"  name="email" value="{{ form.email.value }}" id="id_email" placeholder="Email">
+		<p> <strong> Birthday </strong> </p>
+		<input type="date" class="input-block-level span5" name="birthday" value="{{ form.email.birthday }}" id="id_birthday">
 		<p> <strong> Gender </strong> </p>
 		<label class="radio inline">
 			<input type="radio" name="gender" id="genderU" value="u"> Undisclosed
@@ -42,8 +48,9 @@
 		<label class="radio inline">
 			<input type="radio" name="gender" id="genderF" value="f"> Female
 		</label>
-		<textarea class="span12" style="margin: 20px 0px;" rows="5" name="interests" id="id_interests" placeholder="Interests (optional)"></textarea>
+		<textarea class="span12" style="margin: 20px 0px;" rows="5" name="interests" id="id_interests" placeholder="Interests, (optional), comma, separated"></textarea>
 		<button type="submit" class="btn btn-large btn-primary"> Submit </button>
+		<a href="/" class="btn btn-large"> Cancel </a>
 	</form>
 </div>
 {% endblock %}
