@@ -114,15 +114,15 @@
 				<li class="span" style="padding:20px 20px 0px;">
 					<a href="/{{ author.username }}/profile/" class="thumbnail">
 						{% if author.userprofile.avatar == "" %}
-						<img src="../../static/img/default_avatar.png" class="img-rounded"></img>
+						<img src="../../static/img/default_avatar.png" class="img-rounded" height="200" width="200"></img>
 						{% else %}
-						<img src="{{ author.userprofile.avatar }}" class="img-rounded"></img>
+						<img src="{{ author.userprofile.avatar }}" class="img-rounded" height="200" width="200"></img>
 						{% endif %}
 					</a>
 				</li>
 				<li class="span" style="padding:0px 20px;">	
 					<a href="/{{ author.username }}/profile/" class="btn btn-small btn-info"> Profile </a>
-          			<a href="/follow/{{ author.username }}/" class="btn btn-small btn-info"> Follow </a>
+         	<a href="/follow/{{ author.username }}/" class="btn btn-small btn-info"> Follow </a>
 				</li>
 		</ul>
 		</div>

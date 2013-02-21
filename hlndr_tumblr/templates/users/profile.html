@@ -19,18 +19,18 @@
 
 {% block content %}
 
-<div class="container span8">
+<div class="container span6 offset2">
 	<div class="row-fluid span12" style="min-height: 100%; margin:auto auto;">
-		<div class="container span12" id="profileblock">
+		<div class="well container span12" id="profileblock">
 			<h1> {{ user.username }} {% if user.userprofile.nickname != "" %} "{{ user.userprofile.nickname }}" {% endif %} </h1>
 		</div>
-		<div class="container span12" id="profileblock">
+		<div class="well container span12" id="profileblock">
 			<h4> Gender: {{ user.userprofile.get_gender_display }} </h4>
-			<h4> Email: {{ user.email }} </h4>
+			<h4> Email: <a type="email">{{ user.email }}</a> </h4>
 			<h4> Birthday: {{ user.userprofile.birthday }} </h4>
 			<h4> Date Joined: {{ user.date_joined }} </h4>
 		</div>
-		<div class="container span12" id="profileblock">
+		<div class="well container span12" id="profileblock">
 			{% if user.userprofile.interests != "" %}
 			<h4> Interests: <h4>
 			<h4> {{ user.userprofile.interests|linebreaksbr }} </h4>
@@ -39,10 +39,10 @@
 	</div>
 </div>
 
-<div class="container span4">
+<div class="container span2">
 	<div class="row-fluid span12" style="min-height: 100%; margin:auto auto;">
 		<ul class="thumbnails">
-			<div class="container span12" id="profileblock" style="height: 450px;">
+			<div class="well container span12" id="profileblock" style="height: auto auto;">
 				<a href="/{{ user.username }}/" class="thumbnail">
 					{% if user.userprofile.avatar == "" %}
 					<img src="../../static/img/default_avatar.png" height="200" width="200" class="img-rounded"></img>
@@ -52,7 +52,7 @@
 				</a>
 				<center>
 				{% if user.username == request.user.username %}
-				<a href="/editprofile/" class="btn btn-info"> Edit Profile </a>
+				<a href="/editprofile/" class="btn btn-mini btn-info"><i class="icon-wrench icon-white"></i> Edit Profile </a>
 				{% else %}
 				{% endif %}
 				</center>
