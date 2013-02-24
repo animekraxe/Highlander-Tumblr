@@ -41,23 +41,8 @@ class UserProfile(models.Model):
 
 	# like a particular post
 	def like_post(self, post):
-		classname = post.classname()
-		if classname == "TextPost":
-			Like.objects.get_or_create(textpost=post, user=self.user)
-		elif classname == "PhotoPost":
-			Like.objects.get_or_create(photopost=post, user=self.user)
-		elif classname == "LinkPost":
-			Like.objects.get_or_create(linkpost=post, user=self.user)
-		elif classname == "QuotePost":
-			Like.objects.get_or_create(quotepost=post, user=self.user)
-		elif classname == "ChatPost":
-			Like.objects.get_or_create(chatpost=post, user=self.user)
-		elif classname == "AudioPost":
-			Like.objects.get_or_create(audiopost=post, user=self.user)
-		elif classname == "VideoPost":
-			Like.objects.get_or_create(videopost=post, user=self.user)
-		
-		return None
+		if post.author != self.user:
+			exec "Like.objects.get_or_create(%s=post, user=self.user)" % (post.classname().lower())
 
 	def send_friend_request(self, receiver):
 		FriendRequest.objects.get_or_create(sender=self.user, receiver=receiver)

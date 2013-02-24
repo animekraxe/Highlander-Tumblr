@@ -1,0 +1,40 @@
+{% extends 'blog/blogpage.html' %}
+
+{% block title %} {{ post.classname }} # {{ post.id }} &middot; {% endblock %}
+
+{% block content %}
+<div class="well container span6 offset3" id="blogpost">
+	<p><a href="/{{ post.author.username }}/"><strong>{{ post.author.username }}</strong></a></p>
+	<h6> {{ post.post_date }} </h6>
+	{% autoescape off %}
+	{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
+	{% endautoescape %}
+
+	<h5>
+	{% for tag in post.tags.all %}
+	<small style="color:EC3B86;"> #{{ tag.name }} </small>
+	</h5>
+	{% endfor %}
+
+	<hr>
+
+	<p><a href="/{{ user.username }}/"><strong>{{ user.username }}</strong></a></p>
+	<form id="comment_form" action="." method="POST">
+		{% csrf_token %}
+		<textarea class="span12" rows="5" name="comment" placeholder="Comment"></textarea>
+		<button class="btn btn-primary" type="submit">Post</button>
+	</form>
+
+	<hr>
+
+	{% for comment in post.comment_set.all %}
+	<div class="container">	
+		<p><a href="/{{ comment.user.username }}/"><strong>{{ comment.user.username }}</strong></a></p>	
+		<h6>{{ comment.comment }}<h6>	
+		<h6><small>{{ comment.post_date }}</small></h6>
+	</div>
+	<br>
+	{% endfor %}
+
+</div>
+{% endblock %}

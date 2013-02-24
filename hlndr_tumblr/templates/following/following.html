@@ -19,18 +19,40 @@
 {% block dash_head %} Following {{ count }} People {% endblock %}
 
 {% block dashboard_content %}
-		<div class="span12">
-		<div></div>
-			{% for follower in follower_list %}
-			<div class="well span3" id="follower">
-				{% if follower.avatar == "" %}
-				<img src="../../static/img/default_avatar.png" style="height:40px; width:40px;"></img>
-				{% else %}
-				<img src="{{ follower.avatar }}" style="height:40px; width:40px;"></img>
-				{% endif %}
-       <a href="/{{ follower.user }}/"><strong>{{ follower.user }}</strong></a>
-			</div>
-			{% endfor %}
-		</div>
+    {% for cat in all_categories %}
+    <h2><a href="/following/category/{{ cat }}" style="color:#CC0022">{{ cat }}</a></h2>
+        <div class="span12">
+            <div></div>
+        {% for follower in cat.categorized_users.all %}
+		    <div class="well span3" id="follower">
+			    {% if follower.avatar == "" %}
+			    <img src="/static/img/default_avatar.png" style="height:40px; width:40px;"></img>
+			    {% else %}
+			    <img src="{{ follower.avatar }}" style="height:40px; width:40px;"></img>
+			    {% endif %}
+                <a href="/{{ follower.user }}/"><strong>{{ follower.user }}</strong></a> 
+                <li class="dropdown" style="list-style-type: none;">
+										<br>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Place in category...</a>
+                    <ul class="dropdown-menu">
+                        {% for cat2 in all_categories %}
+                            <li role="presentation">
+                                <a href="/following/categorize/{{ cat2 }}/{{ follower }}/">{{ cat2 }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+		    </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="text" class="input-block-level span5" name="new_category" id="new_category_id" placeholder="New Category">
+				<strong>{{ create_message }}</strong>
+				<br>
+				<button type="submit" class="btn btn-small btn-primary"> Sumbit </button>
+    </form>
 {% endblock %}
+
 

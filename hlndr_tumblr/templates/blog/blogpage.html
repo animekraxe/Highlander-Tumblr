@@ -30,6 +30,19 @@
 		background-color:#2A4480;
 	}
 
+	.post_action_button {
+		text-decoration: none;
+		border: 0 none;
+		background-color: #e7dd68;
+		color: #412C84;
+	}
+
+	.post_action_button:hover {
+		text-decoration: none;
+		background-color: #e7dd68;
+		color: #4671D5;
+	}
+
 </style>
 
 {% endblock %}
@@ -45,70 +58,41 @@
 			</div>
 				{% for post in posts %}
 				<div class="well container-fluid span" id="blogpost">
-					{% if post.classname == "TextPost" %}
-						<h3>
-							{{ post.title }}
-						</h3>
-						<h5>
-							{{ post.post_date }}
-						</h5>
-						<h6>
-							{{ post.text|linebreaksbr }}
-						</h6>
+	
+					<form id="post_action_form" align="right" action="/postaction/{{author.username}}/" method="POST">
+						{% csrf_token %}
+						<a href="/post/{{post.classname}}/{{post.id}}/" value="comment" class="post_action_button">
+							<i class="icon-comment"></i> {{ post.comment_set.count }}
+						</a>
 
-					{% elif post.classname == "PhotoPost" %}
-							<h5>
-								{{ post.post_date }}
-							</h5>
-							<img src="{{ post.url }}"></img>
-							<h6>
-								{{ post.caption|linebreaksbr }}
-							</h6>
+						<button href="." type="submit" name="post_action" value="like_{{post.classname}}_{{post.id}}" class="post_action_button">
+							<i class="icon-heart"></i> {{ post.like_set.count }}
+						</button>
 
-					{% elif post.classname == "VideoPost" %}
-						<h5> {{ post.post_date }} </h5>
-						<video width="100%" controls>
-							<source src="{{ post.url }}" type="video/mp4">
-							<p> Could not play </p>
-						</video>
-						<h6> {{ post.description|linebreaksbr }}</h6>
+						<button href="." type="submit" name="post_action" value="reblog_{{post.classname}}_{{post.id}}" class="post_action_button">
+							<i class="icon-retweet"></i>
+						</button>
 
-					{% elif post.classname == "AudioPost" %}
-						<h5> {{ post.post_date }} </h5>
-						<audio controls>
-							<source src="{{ post.url }}" type="audio/mpeg">
-							<p> Could not play </p>
-						</audio>
-						<h6> {{ post.description|linebreaksbr }}</h6>
-
-					{% elif post.classname == "QuotePost" %}
-						<h5> {{ post.post_date }} </h5>
-						<h1> "{{ post.quote|linebreaksbr }}" </h1>
-						<h6> -{{ post.source|linebreaksbr }} </h6>
-
-					{% elif post.classname == "LinkPost" %}
-						<div class="well container-fluid span" style="background-color:#F5F6CE;">
-							<a href="{{ post.link }}" class="btn btn-link"><strong>{{ post.link }}</strong></a>
-						</div>
-						<h5> {{ post.post_date }} </h5>
-						<h2> {{ post.title }} </h2>
-						<h6> {{ post.description|linebreaksbr }} </h6>
-
-					{% elif post.classname == "ChatPost" %}
-							<h5> {{ post.post_date }} </h5>
-							<h3> {{ post.title }} </h3>
-							<h5> {{ post.chat|linebreaksbr }} </h5>	
-
-					{% endif %}
+						<button href="." type="submit" name="post_action" value="favorite_{{post.classname}}_{{post.id}}" class="post_action_button">
+							<i class="icon-star"></i>
+						</button>
+					</form>
+			
+					<h6> {{ post.post_date }} </h6>
+					{% autoescape off %}
+					{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
+					{% endautoescape %}
 					
 					<h5>
 					{% for tag in post.tags.all %}
 					<small style="color:#EC3B86;">#{{ tag.name }} </small>
 					{% endfor %}
 					</h5>
+
 				</div>
 				{% endfor %}
 		</div>
+
 		<div class="container span2">
 			<ul class="thumbnails">
 				<li class="span" style="padding:20px 20px 0px;">
@@ -124,8 +108,9 @@
 					<a href="/{{ author.username }}/profile/" class="btn btn-small btn-info"> Profile </a>
          	<a href="/follow/{{ author.username }}/" class="btn btn-small btn-info"> Follow </a>
 				</li>
-		</ul>
+			</ul>
 		</div>
+
 	</div>
 </div>
 

@@ -1,0 +1,47 @@
+{% extends 'dashboard/dashboard.html' %}
+
+{% block title %} Highlandr Dashboard {% endblock %}
+
+{% block extra_css %}
+
+<style type="text/css">
+    #follower {
+			padding: 20px 20px;
+			background-color:#FBFE72;
+    }
+</style>
+
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block dash_head %} {{ number_of_users_in_category }} People in {{ category_name }} {% endblock %}
+
+{% block dashboard_content %}
+		<div class="span12">
+			<div></div>
+			{% for follower in users_in_category %}
+			<div class="well span3" id="follower">
+				{% if follower.avatar == "" %}
+				<img src="/static/img/default_avatar.png" style="height:40px; width:40px;"></img>
+				{% else %}
+				<img src="{{ follower.avatar }}" style="height:40px; width:40px;"></img>
+				{% endif %}
+       <a href="/{{ follower.user }}/"><strong>{{ follower.user }}</strong></a>
+			</div>
+			{% endfor %}
+		</div>
+
+        <script type="text/javascript">
+        function confirmation() {
+            var answer = confirm("Delete {{ category_name }}?")
+            if(answer){
+                window.location="/following/delete/{{ category_name }}/";
+                }
+        }
+        </script>
+        <input type="button" value="Delete Category" onClick="confirmation()">
+        <!--<input type="button" value="Delete Category" onClick="window.location='/following/delete/{{ category_name }}' ">-->
+{% endblock %}
+

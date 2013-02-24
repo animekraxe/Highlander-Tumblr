@@ -1,18 +1,47 @@
 # Create your views here
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from blog.models import Blog, TextPost, PhotoPost, VideoPost, AudioPost, QuotePost, LinkPost, ChatPost
-from blog.forms import TextForm, PhotoForm, VideoForm, AudioForm, QuoteForm, LinkForm, ChatForm
+from blog.models import *
+from blog.forms import *
 from utils.shortcuts import *
 
 import threading
 
 amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
+
+@login_required(login_url='/login/')
+def post_page(request, post_type, post_id):
+	exec "post = %s.objects.get(id=%d)" % (post_type, int(post_id))
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comment = form.cleaned_data['comment']
+			exec "Comment.objects.create(comment=comment, user=request.user, %s=post)" % post.classname().lower()
+	else:
+		form = CommentForm()
+
+	return render_to_response('blog/post.html',
+							  {'post':post, 'commentform':form, 'user':request.user},
+							  context_instance=RequestContext(request))
+
+@login_required(login_url='/login/')
+def blog_post_action(request, username):
+	if request.method == 'POST':
+		post_action_values = request.POST['post_action'].split('_')
+		post_action = post_action_values[0]
+		post_type = post_action_values[1]
+		post_id = int(post_action_values[2])
+		exec "post = %s.objects.get(id=%d)" % (post_type, post_id)
+		
+		if post_action == "like":
+			request.user.userprofile.like_post(post)
+			
+	return HttpResponseRedirect('/%s/' % username)
 
 # displays a users blog page if user exists
 def blogpage(request,username):

@@ -22,16 +22,24 @@ urlpatterns = patterns('',
 	url(r'^logout/$', 'users.views.log_out', name='log_out'),
 	url(r'^dashboard/$', 'dashboard.views.dashboard', name='dashboard'),
 
+	url(r'^post/(?P<post_type>\w+)/(?P<post_id>\d+)/$', 'blog.views.post_page', name='post_page'),
 	url(r'^new/', include('blog.urls')),
 
 	url(r'^messages/', include('messages.urls')),
 
 	url(r'^delete/(?P<post_type>\w+)/(?P<post_id>\d+)/$', 'dashboard.views.deletepost', name='deletepost'),
 
+	url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/favicon.ico'}),
+
    	url(r'^following/$', 'following.views.following', name='following'),
   	url(r'^follow/(?P<username>\w+)/$', 'following.views.follow', name='follow'),
+ 	url(r'^following/delete/(?P<category>[\w@.+\-\ ]+)/$','following.views.delete_category', name='delete_category'),
+	url(r'^following/category/(?P<category>[\w@.+\-\ ]+)/$', 'following.views.view_category', name = 'view_category'),
+	url(r'^following/categorize/(?P<category>[\w@.+\-\ ]+)/(?P<otheruser>\w+)/$', 'following.views.categorize', name='categorize'),
 
 	url(r'^editprofile/$', 'users.views.edit_profile', name="edit_profile"),
+
+	url(r'^postaction/(?P<username>\w+)/$', 'blog.views.blog_post_action', name='blog_post_action'),
 
 	url(r'^(?P<username>\w+)/$', 'blog.views.blogpage', name='blogpage'),
 	url(r'^(?P<username>\w+)/posts/$', 'dashboard.views.viewposts', name='viewposts'),

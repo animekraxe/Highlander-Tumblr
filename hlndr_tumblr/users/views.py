@@ -56,7 +56,7 @@ def edit_profile(request):
 				interests = forms.cleaned_data['interests']
 
 				# save blog
-				user_blog = request.user.blog_set.get(pk=1)	
+				user_blog = Blog.objects.get(author=request.user)
 				user_blog.title = blogname if blogname != user_blog.title else user_blog.title
 				user_blog.save()
 				
@@ -80,7 +80,7 @@ def edit_profile(request):
 	profileform = ProfileForm()
 	passwordform = PasswordForm()
 
-	blog = request.user.blog_set.get(pk=1)
+	blog = Blog.objects.get(author=request.user)
 
 	return render_to_response("users/editprofile.html",
 							  {'user':request.user, 'blog':blog,

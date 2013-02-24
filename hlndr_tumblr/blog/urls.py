@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
+	url(r'^comment/(?P<post_type>\w+)/(?P<post_id>\d+)/$', 'blog.views.new_comment', name='newcomment'),
 	url(r'^text/$', 'blog.views.new_text_post', name='newtext'),
 	url(r'^photo/$', 'blog.views.new_photo_post', name='newphoto'),
 	url(r'^quote/$', 'blog.views.new_quote_post', name='newquote'),
