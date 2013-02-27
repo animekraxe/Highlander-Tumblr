@@ -134,6 +134,7 @@ INSTALLED_APPS = (
 	'users',
 	'dashboard',
 	'blog',
+	'friends',
 	'following',
 	'utils',
 	'messages',

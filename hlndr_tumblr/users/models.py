@@ -4,11 +4,8 @@ from django.contrib.auth.models import User
 
 from blog.models import Like
 
-# friend request relation
-class FriendRequest(models.Model):
-	sender = models.ForeignKey(User, related_name='friendrequest_sender')
-	receiver = models.ForeignKey(User, related_name='friendrequest_receiver')
-
+# Create your models here.
+class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.sender.username + ',' + self.receiver.username
 
@@ -25,9 +22,6 @@ class UserProfile(models.Model):
     #following logic
 	following = models.ManyToManyField('UserProfile', related_name="list_following")
 
-	#friends list
-	friends = models.ManyToManyField('UserProfile', related_name="list_friends")
-    
 	# URL to avatar image hosted
 	avatar = models.URLField()
 	nickname = models.CharField(max_length=50, blank=True)
