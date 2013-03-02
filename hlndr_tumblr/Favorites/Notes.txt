@@ -1,0 +1,3 @@
+Add to users/models:
+	#favorites list
+	favorites = models.OneToOneField('FaveList', related_name='list_favorites')

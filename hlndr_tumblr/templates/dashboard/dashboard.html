@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Highlandr Dashboard {% endblock %}
+{% block title %} Dashboard &middot; Highlandr{% endblock %}
 
 {% block extra_css %}
 
@@ -50,13 +50,16 @@
 						<li role="presentation" class="divider"></li>
 						<li role="presentation"><a role="menuitem" href="/{{user.username}}/posts/">Posts</a></li>
 						<li role="presentation"><a role="menuitem" href="/{{user.username}}/profile/">Profile</a></li>
+						<li role="presentation"><a role="menuitem" href="/friends/">Friends</a></li>
 						<li role="presentation"><a role="menuitem" href="/following/">Following</a></li>
 						<li role="presentation"><a role="menuitem" href="/messages/">Messages</a></li>
 					</ul>
 				</li>
-			
+		
+				{% if user.invite_reciever.count != 0 %}	
+				<li> <a href="/friends/">{{ user.invite_reciever.count}} New Friend Request</a></li>
+				{% endif %}
 			<!--	
-				<li> <a href="/friends/">6 New Friend Request</a></li>
 				<li> <a href="/messages/">3 New Messages </a> </li>
 			-->
 

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} New Video Post {% endblock %}
+{% block title %} New Video Post &middot; Highlandr {% endblock %}
 
 {% block extra_css %}
 	<style type="text/css">
@@ -21,7 +21,8 @@
 		{% csrf_token %}
 		<h2> Make a video post </h2>
 		<h5> {{ invalid }}</h5>
-		<div>
+		<div>	
+			<p><strong>25 MB MAX &middot; MP4 ONLY</strong></p>
 			{{ form.video }}
 			{% if form.description.value == None %}
 			<textarea rows="10" class="field span12" name="description" id="id_description" placeholder="Description (optional)"></textarea>

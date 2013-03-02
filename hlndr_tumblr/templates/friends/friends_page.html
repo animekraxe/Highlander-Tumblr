@@ -1,0 +1,44 @@
+{% extends 'dashboard/dashboard.html' %}
+
+{% block title %} Friends &middot; Highlandr {% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+.request-hr {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+</style>
+{% endblock %}
+
+{% block dash_head %} Friends {% endblock %}
+
+{% block dashboard_content %}
+
+{% for request in incoming_requests %}
+<div style="background-color:#AEFEAF;">
+<hr class="request-hr">
+<p class="lead">
+	Friend request from : <a href="/{{ request.sender.username }}/"> {{ request.sender.username }} </a>
+	<a class="pull-right btn btn-info" href="#"><i class="icon-remove"></i> Reject </a>
+	<a class="pull-right btn btn-info" href="/friends/accept/{{ request.sender.username }}/"><i class="icon-ok"></i> Accept </a>
+</p>
+<hr class="request-hr">
+</div>
+{% endfor %}
+
+<h3> <i class="icon-group"></i> Friends </h3>
+{% for friend in friends %}
+	<div class="lead">
+	{% if friend.userprofile.avatar == "" %}
+	<img src="{{ STATIC_URL }}img/default_avatar.png" style="height:40px; width:40px;"></img>
+	{% else %}
+	<img src="{{ friend.userprofile.avatar }}" style="height:40px; width:40px;"></img>
+	{% endif %}
+
+	<a href="/{{ friend.username }}/"> {{friend.username}} </a>
+	</div>
+{% endfor %}
+
+{% endblock %}

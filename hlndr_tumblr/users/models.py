@@ -6,11 +6,6 @@ from blog.models import Like
 
 # Create your models here.
 class UserProfile(models.Model):
-	def __unicode__(self):
-		return self.sender.username + ',' + self.receiver.username
-
-# Create your models here.
-class UserProfile(models.Model):
   	GENDER_CHOICES = (
 		('u', 'Undisclosed'),
 		('m', 'Male'),

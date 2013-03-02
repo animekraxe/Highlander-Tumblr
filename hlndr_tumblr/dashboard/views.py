@@ -11,7 +11,8 @@ def dashboard(request):
 	if request.user.is_authenticated():
 		user = request.user
 
-	posts = get_followed_posts(request.user) + get_user_posts(request.user)	
+	posts = get_followed_posts(request.user) + get_user_posts(request.user) + get_friend_posts(request.user)
+	posts = list(set(posts))	
 	if request.method == 'POST':
 		query = request.POST['searchbar']
 		if query == 'newest':

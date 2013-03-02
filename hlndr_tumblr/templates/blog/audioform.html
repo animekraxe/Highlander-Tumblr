@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} New Audio Post {% endblock %}
+{% block title %} New Post &middot; Highlandr {% endblock %}
 
 {% block extra_css %}
 	<style type="text/css">
@@ -21,9 +21,9 @@
 		{% csrf_token %}
 		<h2> Make an audio post </h2>
 		<h5> {{ invalid }}</h5>
-		<div>
+		<div>	
+			<p><strong>10MB MAX &middot; MP3 ONLY</strong></p>
 			{{ form.audio }}
-			<p> 10MB MAX MP3 </p>
 			{% if form.description.value == None %}
 			<textarea rows="10" class="field span12" name="description" id="id_description" placeholder="Description (optional)"></textarea>
 			{% else %}

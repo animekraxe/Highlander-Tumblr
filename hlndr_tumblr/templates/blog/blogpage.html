@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ author.username }}'s Blog {% endblock %}
+{% block title %} {{ blog.title }} {% endblock %}
 
 {% block extra_css %}
 
@@ -94,6 +94,15 @@
 		</div>
 
 		<div class="container span2">
+			{% if is_friend %}
+			<button class="btn btn-block-level disabled span12"><i class="icon-ok"></i> Friend </button>
+			{% else %}
+				{% if author == user %}
+				<button class="btn btn-block-level disabled span12">Send Friend Request </button>
+				{% else %}			
+				<a href="/friends/send/{{ author.username }}/" class="btn btn-block-level span12">Send Friend Request </a>
+				{% endif %}
+			{% endif %}
 			<ul class="thumbnails">
 				<li class="span" style="padding:20px 20px 0px;">
 					<a href="/{{ author.username }}/profile/" class="thumbnail">

@@ -53,6 +53,13 @@ def get_followed_posts(user):
 		posts += get_user_posts(author.user)
 	return posts
 
+def get_friend_posts(user):
+	friends = [friendship.to_friend for friendship in user.from_friend_set.all()]
+	posts = []
+	for author in friends:
+		posts += get_user_posts(author)
+	return posts
+
 def get_user_posts_by_tag(author,tag):
 	textposts = list(author.textpost_set.filter(tags__name__in=[tag]))
 	photoposts = list(author.photopost_set.filter(tags__name__in=[tag]))

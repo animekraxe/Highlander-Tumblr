@@ -1,6 +1,6 @@
 {% extends 'dashboard/dashboard.html' %}
 
-{% block title %} Highlandr Dashboard {% endblock %}
+{% block title %} Following &middot; Highlandr {% endblock %}
 
 {% block extra_css %}
 
@@ -25,7 +25,7 @@
 
 		    <div class="span12" style="margin-left: 0;">
 					{% if follower.avatar == "" %}
-			    <img src="/static/img/default_avatar.png" style="height:40px; width:40px;"></img>
+			    <img src="{{ STATIC_URL }}img/default_avatar.png" style="height:40px; width:40px;"></img>
 			    {% else %}
 			    <img src="{{ follower.avatar }}" style="height:40px; width:40px;"></img>
 			    {% endif %}

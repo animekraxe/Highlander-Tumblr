@@ -31,7 +31,6 @@ def following(request):
 	myself = get_object_or_404(User, username=user.username)
 	myprofile = get_object_or_404(UserProfile, user=myself)
 	followlist = myprofile.following.all()
-	all_categories = Category.objects.filter(owner=myprofile)
 	create_message = ""
 
 	if request.method == 'POST':
@@ -47,6 +46,12 @@ def following(request):
 			create_message = "Only Alphanumerics Spaces, and @/./+/- characters allowed"
 	else:
 		form = CreateCategoryForm()
+
+	temp_categories = list(Category.objects.filter(owner=myprofile))
+	temp_categories = sorted(temp_categories, key=lambda category: category.name.lower())
+	temp_categories = filter (lambda Category: Category.name != "Uncategorized", temp_categories)
+	temp_categories.append(Category.objects.get(owner=myprofile, name="Uncategorized"))
+	all_categories = temp_categories
 
     return render_to_response('following/following.html',
                               {'follower_list':followlist, 'count':followlist.count(),

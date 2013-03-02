@@ -37,6 +37,10 @@ urlpatterns = patterns('',
 	url(r'^following/category/(?P<category>[\w@.+\-\ ]+)/$', 'following.views.view_category', name = 'view_category'),
 	url(r'^following/categorize/(?P<category>[\w@.+\-\ ]+)/(?P<otheruser>\w+)/$', 'following.views.categorize', name='categorize'),
 
+	url(r'^friends/$', 'friends.views.friend_page', name='friend_page'),
+	url(r'^friends/send/(?P<friendname>\w+)/$', 'friends.views.send_friend_request', name='send_friend_request'),
+	url(r'^friends/accept/(?P<friendname>\w+)/$', 'friends.views.friend_add', name='accept_friend_request'),
+
 	url(r'^editprofile/$', 'users.views.edit_profile', name="edit_profile"),
 
 	url(r'^postaction/(?P<username>\w+)/$', 'blog.views.blog_post_action', name='blog_post_action'),
@@ -44,6 +48,4 @@ urlpatterns = patterns('',
 	url(r'^(?P<username>\w+)/$', 'blog.views.blogpage', name='blogpage'),
 	url(r'^(?P<username>\w+)/posts/$', 'dashboard.views.viewposts', name='viewposts'),
 	url(r'^(?P<username>\w+)/profile/$', 'users.views.profile', name='profile'),
-	#Friends page, yet to have an actual html page
-	#url(r'^(?P<username>\w+)/friends/$', 'friend_page', name='friend_page'),
 )

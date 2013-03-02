@@ -48,11 +48,15 @@ def blogpage(request,username):
 	author = get_object_or_404(User,username=username)
 	posts = get_user_posts(author)
 	blog = get_object_or_404(Blog, author=author)
+	
+	is_friend = False
+	if author.from_friend_set.filter(to_friend=request.user).count() == 1:
+		is_friend = True
 
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	return render_to_response('blog/blogpage.html',
-							  {'author':author, 'posts':posts, 'blog':blog},
+							  {'author':author, 'posts':posts, 'blog':blog, 'is_friend':is_friend},
 							   context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
