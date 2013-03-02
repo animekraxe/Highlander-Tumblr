@@ -17,6 +17,9 @@ class UserProfile(models.Model):
     #following logic
 	following = models.ManyToManyField('UserProfile', related_name="list_following")
 
+	#favorites
+	favorites = models.OneToOneField('FaveList', related_name='list_favorites')
+
 	# URL to avatar image hosted
 	avatar = models.URLField()
 	nickname = models.CharField(max_length=50, blank=True)

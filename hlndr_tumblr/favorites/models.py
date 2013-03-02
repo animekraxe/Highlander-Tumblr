@@ -6,13 +6,13 @@ from blog.models import *
 # Create your models here.
 
 class FaveList(models.Model):
-    textlist = models.ManyToManyField('TextPost', related_name="list_text")
-    photolist = models.ManyToManyField('PhotoPost', related_name="list_photo")
-    videolist = models.ManyToManyField('VideoPost', related_name="list_video")
-    audiolist = models.ManyToManyField('AudioPost', related_name="list_audio")
-    quotelist = models.ManyToManyField('QuotePost', related_name="list_quote")
-    linklist = models.ManyToManyField('LinkPost', related_name="list_link")
-    chatlist = models.ManyToManyField('ChatPost', related_name="list_chat")
+    textlist = models.ManyToManyField(TextPost, related_name="list_text")
+    photolist = models.ManyToManyField(PhotoPost, related_name="list_photo")
+    videolist = models.ManyToManyField(VideoPost, related_name="list_video")
+    audiolist = models.ManyToManyField(AudioPost, related_name="list_audio")
+    quotelist = models.ManyToManyField(QuotePost, related_name="list_quote")
+    linklist = models.ManyToManyField(LinkPost, related_name="list_link")
+    chatlist = models.ManyToManyField(ChatPost, related_name="list_chat")
     
     def __unicode__(self):
         return self.username

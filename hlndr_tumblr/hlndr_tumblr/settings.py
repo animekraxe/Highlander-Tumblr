@@ -136,6 +136,7 @@ INSTALLED_APPS = (
 	'blog',
 	'friends',
 	'following',
+	'favorites',
 	'utils',
 	'messages',
 	'storages',
