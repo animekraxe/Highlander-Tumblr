@@ -84,6 +84,11 @@ def new_text_post(request):
 										   author=request.user,)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:	
+				notify_users_friends(request.user,
+									 "%s made a new text post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 						
 			return HttpResponseRedirect('/dashboard/')
 		else:
@@ -111,6 +116,11 @@ def new_photo_post(request):
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+			
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new photo post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 
 			filepath = "%s/image/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
@@ -142,6 +152,11 @@ def new_video_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new video post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
+
 			filepath = "%s/video/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
 			post.url = amazon_url + filepath
@@ -171,6 +186,11 @@ def new_audio_post(request):
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+			
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new audio post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 
 			filepath = "%s/audio/%s/%s" % (request.user.username, str(post.id), file.name)
 			s3_thread(file, filepath)
@@ -200,6 +220,11 @@ def new_quote_post(request):
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+				
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new quote post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 
 			return HttpResponseRedirect('/dashboard/')
 		else:
@@ -227,6 +252,11 @@ def new_link_post(request):
 										   author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+			
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new link post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 
 			return HttpResponseRedirect('/dashboard/')
 		else:
@@ -252,6 +282,11 @@ def new_chat_post(request):
 										   author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
+			
+			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+				notify_users_friends(request.user,
+									 "%s made a new chat post" % request.user.username, 
+									 "/post/%s/%d" % (post.classname(),post.id))
 
 			return HttpResponseRedirect('/dashboard/')
 		else:

@@ -3,6 +3,8 @@ from django.core.files.storage import default_storage
 from blog.constants import *
 from blog.models import * 
 
+from dashboard.models import *
+
 import threading
 
 amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
@@ -23,6 +25,15 @@ def s3_thread(file, filepath):
 def delete_from_s3(filepath):
 	if default_storage.exists(filepath):
 		default_storage.delete(filepath)
+
+def notify_user(recipient, message, link):
+	recipient.notification_set.create(user=recipient, message=message, link=link)
+
+def notify_users_friends(user, message, link):
+	friends = [friendship.to_friend for friendship in user.from_friend_set.all()]
+	
+	for friend in friends:
+		notify_user(friend, message, link)
 
 # Deletes post and remove from s3 if it is a media post
 def delete_post(post):

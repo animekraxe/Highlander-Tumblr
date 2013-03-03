@@ -7,20 +7,22 @@ from django.http import HttpResponseRedirect
 
 from forms import *
 from models import Message 
+from utils.shortcuts import *
 
 # View all messages in descending order.
 # Set messages to not new 
 @login_required(login_url='/login/')
 def inbox(request):
 
-	message_list = Message.objects.filter(recipient=request.user).order_by('-send_date')
+	message_list = Message.objects.filter(recipient=request.user)
+	message_list = sorted(message_list, key=lambda message: message.send_date)
 
 	for message in message_list:
 		message.is_new = False
 		message.save()
 	
 	return render_to_response('messages/inbox.html',
-							  {'user':request.user, 'message_list':message_list},
+							  {'user':request.user, 'message_list':message_list,},
 							  context_instance=RequestContext(request))
 
 # helper for rendering compose message page
@@ -49,7 +51,10 @@ def compose(request):
 								   title=title,
 								   message=message)
 
-			return HttpResponseRedirect('/dashboard/')
+			# send notification to recipient of message
+			notify_user(recipient, "New message from %s" % request.user.username, "/messages/")
+			
+			return _render_compose(request, form, "Message Sent Successfully")
 		else:
 			return _render_compose(request, form, "No text in message")
 	else:

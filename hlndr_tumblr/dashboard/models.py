@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Dashboard(models.Model):
-	
-	def __unicode__(self):
-		return user.username
-		
+class Notification(models.Model):
+	user = models.ForeignKey(User)
+	message = models.CharField(max_length=200)
+	link = models.CharField(max_length=200)	

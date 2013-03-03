@@ -12,6 +12,8 @@
 	.fill {
 		min-height: 100%;
 	}
+
+
 </style>
 
 {% endblock %}
@@ -55,31 +57,54 @@
 						<li role="presentation"><a role="menuitem" href="/messages/"><i class="icon-envelope-alt"></i> Messages</a></li>
 					</ul>
 				</li>
-		
-				{% if user.invite_reciever.count != 0 %}	
-				<li> <a href="/friends/">{{ user.invite_reciever.count}} New Friend Request</a></li>
-				{% endif %}
-			<!--	
-				<li> <a href="/messages/">3 New Messages </a> </li>
-			-->
-
 			</ul>				
 		</div>
 
 		<hr style="border-color:#997D83;"> 
 
 			{% block dashboard_content %}
-			<div class="container span8" style="margin: auto;">	
+			<style type="text/css">
+			.delete-notification {
+				text-decoration: none;
+				border: 0 none;
+				background-color: #FF7373;
+				color: #0088CC;
+			}
+
+			.delete-notification:hover {
+				text-decoration: none;
+				border: 0 none;
+				background-color: #FF7373;
+				color: #412C84;
+			}
+			</style>
+
 			<form method='POST' action=".">
 			{% csrf_token %}
-				<div class="input-prepend input-append" style="padding:20px 20px;">
-					<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
-					<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
-					<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
-					<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search </button>
-				</div>
-			</form>
+			{% for notification in user.notification_set.all %}
+			<div align="center" style="background-color:#FF7373; margin:0px 0px 2px;">
+				<button class="delete-notification" type="submit" name="delete_notification" value="{{notification.id}}"> 
+				<strong>{{ notification.message }}</strong>
+				</button>
 			</div>
+			{% endfor %}
+			</form>
+			
+			{% if user.notification_set.count != 0 %}	
+			<hr style="border-color:#997D83;">
+			{% endif %}
+		
+				<div class="container span8" style="margin: auto;">	
+				<form method='POST' action=".">
+				{% csrf_token %}
+					<div class="input-prepend input-append" style="padding:20px 20px;">
+						<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
+						<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
+						<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
+						<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search </button>
+					</div>
+				</form>
+				</div>
 
 			<div class="span8" style="margin: auto;">
 			<div></div>

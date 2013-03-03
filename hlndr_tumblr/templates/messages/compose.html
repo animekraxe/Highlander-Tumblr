@@ -2,11 +2,14 @@
 
 {% block title %} New Message &middot; Highlandr {% endblock %}
 
+{% block dash_head %} <i class="icon-pencil"></i> Compose {% endblock %}
+
 {% block dashboard_content %} 
 
 <form method='POST' action='.'>
 {% csrf_token %}
 <div class="span8">
+	<strong>{{ invalid }}</strong>
 	<input type="text" class="input-block-level" name="recipient" placeholder="To:">
 	<input type="text" class="input-block-level" name="title" placeholder="Title">
 	<textarea rows="10" class="field span12" name="message" placeholder="Message"></textarea>

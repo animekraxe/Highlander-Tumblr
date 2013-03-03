@@ -88,5 +88,8 @@ def send_friend_request(request, friendname):
 	friendRequest = FriendRequest(sender=user, reciever=friend)
 	friendRequest.save()
 
+	# notify recipient of friend request
+	notify_user(friend, "Pending Friend Request from %s" % friend.username, "/friends/")
+
 	#not sure if stay on same page or redirect
 	return HttpResponseRedirect('/%s/' % friendname)
