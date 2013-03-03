@@ -74,7 +74,11 @@
 						</button>
 
 						<button href="." type="submit" name="post_action" value="favorite_{{post.classname}}_{{post.id}}" class="post_action_button">
+							{% if post in user.favelist.get_favorites %}
+							<i class="icon-star" style="color:#86860C;"></i>
+							{% else %}
 							<i class="icon-star"></i>
+							{% endif %}
 						</button>
 					</form>
 			

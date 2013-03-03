@@ -41,6 +41,8 @@ urlpatterns = patterns('',
 	url(r'^friends/send/(?P<friendname>\w+)/$', 'friends.views.send_friend_request', name='send_friend_request'),
 	url(r'^friends/accept/(?P<friendname>\w+)/$', 'friends.views.friend_add', name='accept_friend_request'),
 
+	url(r'^favorites/$', 'favorites.views.favorites', name='favorites'),
+
 	url(r'^editprofile/$', 'users.views.edit_profile', name="edit_profile"),
 
 	url(r'^postaction/(?P<username>\w+)/$', 'blog.views.blog_post_action', name='blog_post_action'),

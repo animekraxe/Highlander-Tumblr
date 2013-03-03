@@ -12,7 +12,7 @@
 </style>
 {% endblock %}
 
-{% block dash_head %} Friends {% endblock %}
+{% block dash_head %} <i class="icon-group"></i> Friends {% endblock %}
 
 {% block dashboard_content %}
 
@@ -28,7 +28,7 @@
 </div>
 {% endfor %}
 
-<h3> <i class="icon-group"></i> Friends </h3>
+<h3> </h3>
 {% for friend in friends %}
 	<div class="lead">
 	{% if friend.userprofile.avatar == "" %}

@@ -22,14 +22,14 @@
 	<div class="row-fluid">
 		<div class="well span12" style="background-color:#eee;">
 
-		<h2>{% block dash_head %} Dashboard {% endblock %}</h2>
+		<h2>{% block dash_head %} <i class="icon-dashboard"></i> Dashboard {% endblock %}</h2>
 
 		<div class="container">
 			<ul class="nav nav-pills">
 			
 				<li> <a href="/{{ user.username }}/"> Blog </a> </li>
+				<li> <a href="/{{user.username}}/profile/">Profile</a></li>	
 				<li> <a href="/dashboard/"> Dashboard </a> </li>
-
 				
 				<li class="dropdown">
 					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-edit"></i> Post<b class="caret"></b></a>
@@ -47,12 +47,12 @@
 					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-list-alt"></i> Menu<b class="caret"></b></a>
 					<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
 						<li role="presentation"><a role="menuitem" href="/logout/">Logout</a></li>
-						<li role="presentation" class="divider"></li>
-						<li role="presentation"><a role="menuitem" href="/{{user.username}}/posts/">Posts</a></li>
-						<li role="presentation"><a role="menuitem" href="/{{user.username}}/profile/">Profile</a></li>
-						<li role="presentation"><a role="menuitem" href="/friends/">Friends</a></li>
-						<li role="presentation"><a role="menuitem" href="/following/">Following</a></li>
-						<li role="presentation"><a role="menuitem" href="/messages/">Messages</a></li>
+						<li role="presentation" class="divider"></li>	
+						<li role="presentation"><a role="menuitem" href="/{{user.username}}/posts/"><i class="icon-th-large"></i> Posts</a></li>
+						<li role="presentation"><a role="menuitem" href="/favorites/"><i class="icon-star"></i> Favorites</a></li>
+						<li role="presentation"><a role="menuitem" href="/friends/"><i class="icon-group"></i> Friends</a></li>
+						<li role="presentation"><a role="menuitem" href="/following/"><i class="icon-bookmark"></i> Following</a></li>
+						<li role="presentation"><a role="menuitem" href="/messages/"><i class="icon-envelope-alt"></i> Messages</a></li>
 					</ul>
 				</li>
 		

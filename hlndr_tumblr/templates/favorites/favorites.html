@@ -1,6 +1,6 @@
 {% extends 'dashboard/dashboard.html' %}
 
-{% block title %} Posts &middot; Highlandr {% endblock %}
+{% block title %} Favorites &middot; Highlandr {% endblock %}
 
 {% block extra_css %}
 
@@ -22,7 +22,7 @@
 
 {% endblock %}
 
-{% block dash_head %} <i class="icon-th-large"></i> Posts {% endblock %}
+{% block dash_head %} <i class="icon-star"></i> Favorites {% endblock %}
 
 	{% block dashboard_content %}	
 		<div class="container span8" style="margin:auto;">
@@ -40,10 +40,17 @@
 		<div class="container span8" style="margin:auto;">
 			<div></div>
 
-				{% for post in posts %}
+				{% for post in favorites %}
 				<div class="well container-fluid span" id="blogpost">
-					<p><a align="left" class="close" href="/delete/{{post.classname|lower}}/{{post.id}}/">&times;</a></p>
+					
+					<form method='POST' action=".">
+					{% csrf_token %}
+						<p>
+						<button align="left" class="close" type="submit" name="favelist_action" value="{{ post.classname }}_{{ post.id }}">&times;</button>
+						</p>
+					</form>
 
+					<a href="/{{post.author.username}}/">{{post.author.username}}</a>
 					<h6> {{ post.post_date }} </h6>
 					{% autoescape off %}
 					{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}

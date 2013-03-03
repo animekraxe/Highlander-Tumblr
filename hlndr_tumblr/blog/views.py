@@ -40,6 +40,8 @@ def blog_post_action(request, username):
 		
 		if post_action == "like":
 			request.user.userprofile.like_post(post)
+		if post_action == "favorite":
+			request.user.favelist.add(post)
 			
 	return HttpResponseRedirect('/%s/' % username)
 

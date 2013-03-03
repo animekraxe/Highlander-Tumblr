@@ -14,6 +14,8 @@ from users.models import UserProfile
 from utils.shortcuts import *
 
 from blog.models import Blog
+from following.models import Category
+from favorites.models import FaveList
 
 # display profile page
 def profile(request, username):
@@ -189,6 +191,10 @@ def register(request):
 			
 			# Create user's blog information
 			Blog.objects.create(author=user)
+			# Create user's following information
+			Category.objects.create(name="Uncategorized", owner=user.userprofile)
+			# Create user's favelist
+			FaveList.objects.create(user=user)
 	
 			return HttpResponseRedirect('/login/')
 		else:

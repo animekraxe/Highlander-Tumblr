@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 from blog.models import Like
+from favorites.models import FaveList
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -18,7 +19,7 @@ class UserProfile(models.Model):
 	following = models.ManyToManyField('UserProfile', related_name="list_following")
 
 	#favorites
-	favorites = models.OneToOneField('FaveList', related_name='list_favorites')
+	#favorites = models.OneToOneField(FaveList, related_name='list_favorites')
 
 	# URL to avatar image hosted
 	avatar = models.URLField()

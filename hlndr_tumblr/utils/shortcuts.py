@@ -85,6 +85,22 @@ def sort_posts_by_newest(posts):
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	return posts
 
+def sort_posts_by_searchbar(posts, request):
+	query = request.POST['searchbar']
+	if query == 'newest':
+		posts = sort_posts_by_newest(posts)
+	elif query == 'oldest':
+		posts = sort_posts_by_oldest(posts)
+	elif query == 'search':
+		# Implement search by tags here
+		tags = request.POST['searchbox']
+		taglist = get_tag_list(tags)
+
+		posts = []
+		for tag in taglist:
+			posts += get_user_posts_by_tag(request.user,tag)
+	return posts
+
 def get_tag_list(tags):
 	tag_tokens = []
 	tmp = ""
