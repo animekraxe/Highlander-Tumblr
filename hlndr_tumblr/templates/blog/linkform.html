@@ -20,6 +20,8 @@
 	<form action="/new/link/" method="POST" class="form-horizontal">
 		{% csrf_token %}
 		<h2> Make a link post </h2>
+		<strong>Viewable for</strong> {{ form.privacy }}
+
 		<h5> {{ invalid }} </h5>
 		<div>
 			{% if form.title.value == None %}

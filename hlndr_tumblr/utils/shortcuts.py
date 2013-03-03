@@ -1,6 +1,7 @@
 from django.core.files.storage import default_storage
 
-from blog.models import TextPost, PhotoPost, VideoPost, AudioPost, QuotePost, LinkPost, ChatPost
+from blog.constants import *
+from blog.models import * 
 
 import threading
 
@@ -99,6 +100,27 @@ def sort_posts_by_searchbar(posts, request):
 		posts = []
 		for tag in taglist:
 			posts += get_user_posts_by_tag(request.user,tag)
+	return posts
+
+def is_viewable(viewer, post):
+	privacy_level = [PRIVACY_ALL]
+
+	author = post.author
+	author_friends = [friendship.to_friend for friendship in author.from_friend_set.all()]
+
+	if viewer in author_friends:
+		privacy_level.append(PRIVACY_FRIENDS)
+	if viewer == author:
+		privacy_level.append(PRIVACY_FRIENDS)
+		privacy_level.append(PRIVACY_SELF)
+
+	if post.privacy in privacy_level:
+		return True
+	
+	return False	
+
+def filter_posts_by_privacy(user, posts):
+	posts = filter(lambda post: is_viewable(user, post), posts)
 	return posts
 
 def get_tag_list(tags):

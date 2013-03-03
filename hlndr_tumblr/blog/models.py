@@ -19,7 +19,7 @@ class TextPost(models.Model):
 	text = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 	tags = TaggableManager()
 
 	def __unicode__(self):
@@ -41,7 +41,7 @@ class PhotoPost(models.Model):
 	caption = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 	tags = TaggableManager()
 
 	def __unicode__(self):
@@ -63,7 +63,7 @@ class VideoPost(models.Model):
 	description = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 
 	tags = TaggableManager()
 
@@ -89,7 +89,7 @@ class AudioPost(models.Model):
 	description = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 
 	tags = TaggableManager()
 
@@ -114,7 +114,7 @@ class QuotePost(models.Model):
 	source = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 
 	tags = TaggableManager()
 
@@ -135,7 +135,7 @@ class LinkPost(models.Model):
 	description = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 
 	tags = TaggableManager()
 
@@ -159,7 +159,7 @@ class ChatPost(models.Model):
 	chat = models.TextField()
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
-	privacy = models.PositiveIntegerField(default=PRIVACY_ALL)
+	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 
 	tags = TaggableManager()
 

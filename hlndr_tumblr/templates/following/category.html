@@ -9,6 +9,11 @@
 			padding: 20px 20px;
 			background-color:#FBFE72;
     }
+
+	#blogpost {
+		background-color:#F1AB00;
+	}
+
 </style>
 
 {% endblock %}
@@ -16,9 +21,10 @@
 {% block breadcrumbs %}
 {% endblock %}
 
-{% block dash_head %} {{ number_of_users_in_category }} People in {{ category_name }} {% endblock %}
+{% block dash_head %} <i class="icon-bookmark"></i> {{ number_of_users_in_category }} People in {{ category_name }} {% endblock %}
 
 {% block dashboard_content %}
+<!--
 		<div class="span12">
 			<div></div>
 			{% for follower in users_in_category %}
@@ -32,7 +38,7 @@
 			</div>
 			{% endfor %}
 		</div>
-
+-->
         <script type="text/javascript">
         function confirmation() {
             var answer = confirm("Delete {{ category_name }}?")
@@ -41,7 +47,35 @@
                 }
         }
         </script>
+
+			<div class="container" style="margin: 20px 20px;">
+				{% if category_name != "Uncategorized" %}
         <input type="button" value="Delete Category" onClick="confirmation()">
+				{% endif %}
         <!--<input type="button" value="Delete Category" onClick="window.location='/following/delete/{{ category_name }}' ">-->
+			</div>
+
+			<div class="span8" style="margin: auto;">
+				<div></div>
+				{% for post in posts %}
+					<div class="well container-fluid span" id="blogpost">
+			
+						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
+
+						<h6> {{ post.post_date }} </h6>
+						{% autoescape off %}
+						{% filter linebreaksbr %}{{	post.custom_html }}{% endfilter %}
+						{% endautoescape %}
+
+						<h5>
+						{% for tag in post.tags.all %}
+						<small style="color:#EC3B86;">#{{tag.name}} </small>
+						{% endfor %}
+						</h5>
+			
+					</div>
+				{% endfor %}
+			</div>
+
 {% endblock %}
 

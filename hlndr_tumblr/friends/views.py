@@ -15,6 +15,18 @@ from utils.shortcuts import *
 #function to fill friends page up with desired content
 @login_required(login_url='/login/')
 def friend_page(request):
+	# Get friend request action values
+	if request.method == 'POST':
+		if 'friend_request_action' in request.POST:
+			action_val = request.POST['friend_request_action'].split('_')
+			action = action_val[0]
+			id = action_val[1]
+			friend_request = get_object_or_404(FriendRequest,id=id)
+			if action == "accept":
+				friend_request.accept()
+			if action == "delete":
+				friend_request.delete()
+
 	#get the user object from db but 404 if not there
 	user = request.user
 	
@@ -28,7 +40,7 @@ def friend_page(request):
 	fr_incoming = user.invite_reciever.all()
 
 	#list of friends that should be shown (currently lists by recently added friends) [decending]
-	#recently_added_friends = [fs.to_friend for fs in user.from_friend_set.order_by('-friendSince')]
+	#recently_added_friends = [fs.to_friend for fs in user.from_friend_set.order_by('-friendSince')]	
 
 	variables = RequestContext(request, {
 		'user': user,

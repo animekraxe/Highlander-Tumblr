@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from utils.shortcuts import *
 from users.models import UserProfile
 from following.models import Category
 from following.forms import CreateCategoryForm
@@ -109,23 +110,28 @@ def categorize(request, otheruser, category):
 
 @login_required(login_url='/login/')
 def view_category(request, category):
-    if request.user.is_authenticated():
-        user = request.user.username
+	if request.user.is_authenticated():
+		user = request.user.username
 
-    #categorizing portion
-    myself = get_object_or_404(User, username=request.user.username)
-    myprofile = get_object_or_404(UserProfile, user=myself)
-
-    single_category = Category.objects.filter(name=category, owner=myprofile)
-    
-    #[0] is because there should only be 1
-    users_in_category = single_category[0].categorized_users.all()
-
-    return render_to_response('following/category.html', 
-                              {'users_in_category':users_in_category,
-                              'number_of_users_in_category':users_in_category.count(),
-                              'category_name':category},
-                              context_instance=RequestContext(request))
+	#categorizing portion
+	myself = get_object_or_404(User, username=request.user.username)
+	myprofile = get_object_or_404(UserProfile, user=myself)
+	
+	single_category = Category.objects.filter(name=category, owner=myprofile)
+	
+	#[0] is because there should only be 1
+	users_in_category = single_category[0].categorized_users.all()
+	
+	posts = []
+	for userprofile in users_in_category:
+		posts += get_user_posts(userprofile.user)
+	
+	return render_to_response('following/category.html', 
+							{'users_in_category':users_in_category,
+							'number_of_users_in_category':users_in_category.count(),
+							'category_name':category,
+							'posts':posts},
+							context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
 def delete_category(request, category):

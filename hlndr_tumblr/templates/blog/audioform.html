@@ -20,10 +20,14 @@
 	<form action="/new/audio/" method="POST" enctype="multipart/form-data" class="form-horizontal">
 		{% csrf_token %}
 		<h2> Make an audio post </h2>
+		<strong>Viewable for</strong> {{ form.privacy }}
+
 		<h5> {{ invalid }}</h5>
 		<div>	
 			<p><strong>10MB MAX &middot; MP3 ONLY</strong></p>
+
 			{{ form.audio }}
+
 			{% if form.description.value == None %}
 			<textarea rows="10" class="field span12" name="description" id="id_description" placeholder="Description (optional)"></textarea>
 			{% else %}

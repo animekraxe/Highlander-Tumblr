@@ -20,6 +20,8 @@
 	<form action="/new/video/" method="POST" enctype="multipart/form-data" class="form-horizontal">
 		{% csrf_token %}
 		<h2> Make a video post </h2>
+		<strong>Viewable for</strong> {{ form.privacy }}
+
 		<h5> {{ invalid }}</h5>
 		<div>	
 			<p><strong>25 MB MAX &middot; MP4 ONLY</strong></p>

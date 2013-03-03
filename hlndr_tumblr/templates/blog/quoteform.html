@@ -20,6 +20,8 @@
 	<form action="/new/quote/" method="POST" class="form-horizontal">
 		{% csrf_token %}
 		<h2> Make a quote post </h2>
+		<strong>Viewable for</strong> {{ form.privacy }}
+
 		<h5> {{ invalid }} </h5>
 		<div>
 			<textarea rows="10" class="field span12" name="quote" id="id_quote" value="{{ form.quote.value }}" placeholder="Quote"></textarea>

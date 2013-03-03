@@ -42,8 +42,14 @@
 
 				{% for post in posts %}
 				<div class="well container-fluid span" id="blogpost">
-					<p><a align="left" class="close" href="/delete/{{post.classname|lower}}/{{post.id}}/">&times;</a></p>
-
+					
+					<p>
+						<strong>Viewable by: 	
+						{{post.get_privacy_display}} 
+						</strong>
+						<a align="left" class="close" href="/delete/{{post.classname|lower}}/{{post.id}}/">&times;</a>
+					</p>
+			
 					<h6> {{ post.post_date }} </h6>
 					{% autoescape off %}
 					{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}

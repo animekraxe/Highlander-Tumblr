@@ -19,11 +19,14 @@
 {% for request in incoming_requests %}
 <div style="background-color:#AEFEAF;">
 <hr class="request-hr">
+<form method="POST" action=".">
+{% csrf_token %}
 <p class="lead">
-	Friend request from : <a href="/{{ request.sender.username }}/"> {{ request.sender.username }} </a>
-	<a class="pull-right btn btn-info" href="#"><i class="icon-remove"></i> Reject </a>
-	<a class="pull-right btn btn-info" href="/friends/accept/{{ request.sender.username }}/"><i class="icon-ok"></i> Accept </a>
+		Friend request from : <a href="/{{ request.sender.username }}/"> {{ request.sender.username }} </a>
+		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="delete_{{request.id}}"><i class="icon-remove"></i> Reject </button>
+		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="accept_{{request.id}}"><i class="icon-ok"></i> Accept </button>
 </p>
+</form>
 <hr class="request-hr">
 </div>
 {% endfor %}

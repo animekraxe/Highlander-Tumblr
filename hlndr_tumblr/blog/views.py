@@ -6,6 +6,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from blog.constants import *
 from blog.models import *
 from blog.forms import *
 from utils.shortcuts import *
@@ -14,10 +15,12 @@ import threading
 
 amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
 
-@login_required(login_url='/login/')
 def post_page(request, post_type, post_id):
 	exec "post = %s.objects.get(id=%d)" % (post_type, int(post_id))
 	if request.method == 'POST':
+		if not request.user.is_authenticated():
+			return HttpResponseRedirect('/login/')
+
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			comment = form.cleaned_data['comment']
@@ -48,15 +51,18 @@ def blog_post_action(request, username):
 # displays a users blog page if user exists
 def blogpage(request,username):
 	author = get_object_or_404(User,username=username)
-	posts = get_user_posts(author)
 	blog = get_object_or_404(Blog, author=author)
-	
-	is_friend = False
-	if author.from_friend_set.filter(to_friend=request.user).count() == 1:
-		is_friend = True
 
+	is_friend = False
+	if request.user.is_authenticated():
+		if author.from_friend_set.filter(to_friend=request.user).count() == 1:
+			is_friend = True
+
+	posts = get_user_posts(author)
+	posts = filter_posts_by_privacy(request.user, posts)
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
+	
 	return render_to_response('blog/blogpage.html',
 							  {'author':author, 'posts':posts, 'blog':blog, 'is_friend':is_friend},
 							   context_instance=RequestContext(request))
@@ -69,10 +75,12 @@ def new_text_post(request):
 		if form.is_valid():
 			title = form.cleaned_data['title']
 			slug = slugify(title)
-			text = form.cleaned_data['text']	
+			text = form.cleaned_data['text']
+			privacy = form.cleaned_data['privacy']	
 			post = TextPost.objects.create(title=title,
 										   slug=slug,
 										   text=text,
+										   privacy=privacy,
 										   author=request.user,)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -95,9 +103,11 @@ def new_photo_post(request):
 		if form.is_valid():
 			file = request.FILES['photo']
 			caption = form.cleaned_data['caption']
+			privacy = form.cleaned_data['privacy']	
 			post = PhotoPost.objects.create(filename=file.name,
 											url="",
 											caption=caption,
+											privacy=privacy,
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -123,9 +133,11 @@ def new_video_post(request):
 		if form.is_valid():
 			file = request.FILES['video']
 			description = form.cleaned_data['description']
+			privacy = form.cleaned_data['privacy']	
 			post = VideoPost.objects.create(filename=file.name,
 										    url="",
 											description=description,
+											privacy=privacy,
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -151,10 +163,11 @@ def new_audio_post(request):
 		if form.is_valid():
 			file = request.FILES['audio']
 			description = form.cleaned_data['description']
-			print description
+			privacy = form.cleaned_data['privacy']	
 			post = AudioPost.objects.create(filename=file.name,
 										    url="",
 											description=description,
+											privacy=privacy,
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -180,8 +193,10 @@ def new_quote_post(request):
 		if form.is_valid():
 			quote = form.cleaned_data['quote']
 			source = form.cleaned_data['source']
+			privacy = form.cleaned_data['privacy']	
 			post = QuotePost.objects.create(quote=quote,
 										    source=source,
+											privacy=privacy,
 											author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -204,9 +219,11 @@ def new_link_post(request):
 			title = form.cleaned_data['title']
 			link = form.cleaned_data['link']
 			description = form.cleaned_data['description']
+			privacy = form.cleaned_data['privacy']	
 			post = LinkPost.objects.create(title=title,
 										   link=link,
 										   description=description,
+										   privacy=privacy,
 										   author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
@@ -228,8 +245,10 @@ def new_chat_post(request):
 		if form.is_valid():
 			title = form.cleaned_data['title']
 			chat = form.cleaned_data['chat']
+			privacy = form.cleaned_data['privacy']	
 			post = ChatPost.objects.create(title=title,
 										   chat=chat,
+										   privacy=privacy,
 										   author=request.user)
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)

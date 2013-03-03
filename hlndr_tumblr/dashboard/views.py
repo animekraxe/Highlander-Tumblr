@@ -12,6 +12,7 @@ def dashboard(request):
 		user = request.user
 
 	posts = get_followed_posts(request.user) + get_user_posts(request.user) + get_friend_posts(request.user)
+	posts = filter_posts_by_privacy(user, posts)
 	posts = list(set(posts))	
 	if request.method == 'POST':
 		query = request.POST['searchbar']
