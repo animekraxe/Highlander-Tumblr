@@ -35,6 +35,11 @@ def post_page(request, post_type, post_id):
 @login_required(login_url='/login/')
 def blog_post_action(request, username):
 	if request.method == 'POST':
+		if request.is_ajax():
+			print "THIS IS AJAX"
+		else:
+			print "THIS IS NOT AJAX"
+
 		post_action_values = request.POST['post_action'].split('_')
 		post_action = post_action_values[0]
 		post_type = post_action_values[1]
@@ -85,7 +90,7 @@ def new_text_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:	
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new text post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -117,7 +122,7 @@ def new_photo_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 			
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new photo post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -152,7 +157,7 @@ def new_video_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new video post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -187,7 +192,7 @@ def new_audio_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 			
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new audio post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -221,7 +226,7 @@ def new_quote_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 				
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new quote post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -253,7 +258,7 @@ def new_link_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 			
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new link post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))
@@ -283,7 +288,7 @@ def new_chat_post(request):
 			tags = form.cleaned_data['tags']
 			save_tags(post,tags)
 			
-			if privacy in [PRIVACY_ALL, PRIVACY_FRIENDS]:
+			if int(privacy) in [PRIVACY_ALL, PRIVACY_FRIENDS]:
 				notify_users_friends(request.user,
 									 "%s made a new chat post" % request.user.username, 
 									 "/post/%s/%d" % (post.classname(),post.id))

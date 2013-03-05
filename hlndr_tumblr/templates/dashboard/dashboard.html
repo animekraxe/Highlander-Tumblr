@@ -21,7 +21,7 @@
 {% block content %}
 
 <div class="container fill" id="mainbody">
-	<div class="row-fluid">
+	<div class="row-fluid span8 offset2">
 		<div class="well span12" style="background-color:#eee;">
 
 		<h2>{% block dash_head %} <i class="icon-dashboard"></i> Dashboard {% endblock %}</h2>
@@ -36,19 +36,19 @@
 				<li class="dropdown">
 					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-edit"></i> Post<b class="caret"></b></a>
 					<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-						<li role="presentation"><a role="menuitem" href="/new/text/">Text</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/photo/">Photo</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/quote/">Quote</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/link/">Link</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/chat/">Chat</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/audio/">Audio</a></li>
-						<li role="presentation"><a role="menuitem" href="/new/video/">Video</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/text/"><i class="icon-font"></i> Text</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/photo/"><i class="icon-camera"></i> Photo</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/quote/"><i class="icon-quote-left"></i> Quote</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/link/"><i class="icon-link"></i> Link</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/chat/"><i class="icon-comments"></i> Chat</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/audio/"><i class="icon-headphones"></i> Audio</a></li>
+						<li role="presentation"><a role="menuitem" href="/new/video/"><i class="icon-facetime-video"></i> Video</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
 					<a class="dropwdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#"><i class="icon-list-alt"></i> Menu<b class="caret"></b></a>
 					<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-						<li role="presentation"><a role="menuitem" href="/logout/">Logout</a></li>
+						<li role="presentation"><a role="menuitem" href="/logout/"><i class="icon-signout"></i> Logout</a></li>
 						<li role="presentation" class="divider"></li>	
 						<li role="presentation"><a role="menuitem" href="/{{user.username}}/posts/"><i class="icon-th-large"></i> Posts</a></li>
 						<li role="presentation"><a role="menuitem" href="/favorites/"><i class="icon-star"></i> Favorites</a></li>
@@ -94,23 +94,20 @@
 			<hr style="border-color:#997D83;">
 			{% endif %}
 		
-				<div class="container span8" style="margin: auto;">	
 				<form method='POST' action=".">
 				{% csrf_token %}
-					<div class="input-prepend input-append" style="padding:20px 20px;">
+					<div class="input-prepend input-append" style="margin: 0px; padding:0px 0px;">
 						<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
 						<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
-						<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
+						<input class="span8" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
 						<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search </button>
 					</div>
 				</form>
-				</div>
 
-			<div class="span8" style="margin: auto;">
-			<div></div>
+				<div ddclass="container span12" style="margin: 0px;">
 				{% for post in posts %}
-					<div class="well container-fluid span" id="blogpost">
-			
+					<div class="well container-fluid span" id="blogpost" style="margin: 5px 0px;">
+						
 						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
 
 						<h6> {{ post.post_date }} </h6>
@@ -126,8 +123,23 @@
 			
 					</div>
 				{% endfor %}
+				</div>
+
+<!--
+				<div class="container span4" style="margin-right: 0px;">
+					{% for post in recommendations %}
+					<div class="well container-fluid span" style="margin: 5px 0px; word-break: break-all;">
+						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
+						<a href="/post/{{post.classname}}/{{post.id}}/">Post</a>
+						{% autoescape off %}
+						{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
+						{% endautoescape %}
+					</div>
+					{% endfor %}
+				</div>
+-->
+
 			{% endblock %}
-			</div>
 		</div>
 	</div>
 </div>

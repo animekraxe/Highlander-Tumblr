@@ -17,7 +17,7 @@ def dashboard(request):
 	posts = list(set(posts))	
 	if request.method == 'POST':
 		if 'searchbar' in request.POST:
-			search_posts_by_searchbar(posts, request)
+			posts = sort_posts_by_searchbar(posts, request)
 		if 'delete_notification' in request.POST:
 			notification_id = int(request.POST['delete_notification'])
 			notification = Notification.objects.get(id=notification_id)
@@ -27,8 +27,10 @@ def dashboard(request):
 	else:
 		posts = sort_posts_by_newest(posts)
 
+	recommendations = rank_blogs(request.user)
+
 	return render_to_response('dashboard/dashboard.html',
-							  {'posts':posts,}, 
+							  {'posts':posts, 'recommendations':recommendations}, 
 							  context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')

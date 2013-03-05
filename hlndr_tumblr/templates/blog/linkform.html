@@ -1,25 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/dashboard.html' %}
 
 {% block title %} New Post &middot; Highlandr {% endblock %}
 
-{% block extra_css %}
-	<style type="text/css">
-	
-	.form-horizontal {
-		background-color:#eee;
-		padding: 20px 20px;
-		margin: 255px auto;
-		max-width: 500px;
-	}
-
-	</style>
-{% endblock %}
-
-{% block content %}
-<div class="container">
+{% block dashboard_content %}
 	<form action="/new/link/" method="POST" class="form-horizontal">
 		{% csrf_token %}
-		<h2> Make a link post </h2>
+		<h2><i class="icon-link"></i> Make a link post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}
 
 		<h5> {{ invalid }} </h5>
@@ -45,6 +31,4 @@
 		<div>
 		<button type="submit" class="btn btn-block btn-primary"> Post </button>
 	</form>
-</div>
-
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'blog/blogpage.html' %}
 
-{% block title %} {{ post.classname }} # {{ post.id }} &middot; {% endblock %}
+{% block title %} {{ post.author.username }} &mdash; {{ post.title }} &middot; Highlandr {% endblock %}
 
 {% block content %}
 
@@ -14,8 +14,8 @@
 <h5>
 {% for tag in post.tags.all %}
 <small style="color:EC3B86;"> #{{ tag.name }} </small>
-</h5>
 {% endfor %}
+</h5>
 
 <hr>
 

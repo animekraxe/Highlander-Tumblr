@@ -15,6 +15,7 @@
 
 	#blogname {
 		padding: 20px 20px;
+		background-color:#fffcdc;
 	}	
 
 	.fill {
@@ -51,11 +52,12 @@
 
 <div class="container fill" id="mainbody">
 	<div class="row-fluid" id="blogcontainer">
-		<div class="container span8">
+		<div class="container span8 offset1">
 			<div></div>
-			<div class="well container-fluid span" id="blogname" style="background-color:#fffcdc">
+			<div class="well container-fluid span" id="blogname"> 
 				<h2> {{ blog.title }}</h2>
 			</div>
+
 				{% for post in posts %}
 				<div class="well container-fluid span" id="blogpost">
 	

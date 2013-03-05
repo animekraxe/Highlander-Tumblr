@@ -1,28 +1,57 @@
-{% extends 'base.html' %}
+{% extends 'blog/blogpage.html' %}
 
-{% block title %} Highlander Tumblr! {% endblock %}
+{% block title %} Highlandr {% endblock %}
 
-{% block extra_css %}
+{% block content %}
 <style type="text/css">
 
 .container, .row-fluid {
 	height: 100%;
 }
 
+#center {
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
 </style>
 
-{% endblock %}
-
-{% block content %}
-<div class="container">
-	<div class="row-fluid">
-		<div class="span12">
-		<!--body -->
-			<div class="hero-unit">
-			<!-- sidebar -->
-				<h1> Highlandr <small>The microblogging platform for UCR Highlanders</small></h1>
-			</div>
-		</div>
+	<!-- sidebar -->
+	<div class="hero-unit span8" id="center" style="padding: 20px;"> 
+		<center><h1><i class="icon-flag"></i> Highlandr <small>The microblogging platform for UCR Highlanders</small></h1></center>
 	</div>
-</div>
+
+	<div class="hero-unit span2" id="center" style="padding: 0px; background-color: inherit;">
+		<form action="." method="POST">
+		{% csrf_token %}
+
+		<button type="submit" name="home_action" value="random" class="btn btn-primary"> Random </button>
+
+		{% if recommended_enable %}
+		<button type="submit" name="home_action" value="recommended" class="btn btn-primary"> Recommended </button>
+		{% else %}
+		<a class="btn btn-primary disabled"> Recommended </a>
+		{% endif %}
+
+		</form>
+	</div>
+	
+	{% for post in posts %}
+	<div class="hero-unit span6" id="center" style="padding: 20px; margin-bottom: 10px;">
+		<a href="/post/{{post.classname}}/{{post.id}}/" style="text-decoration: none;"><i class="icon-external-link pull-right"></i></a>
+	
+		{% autoescape off %}
+		{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
+		{% endautoescape %}
+
+		<h5>
+		{% for tag in post.tags.all %}
+		<small style="color:#EC3B86">#{{ tag.name }}</small>
+		{% endfor %}
+		</h5>
+
+	</div>
+	{% endfor %}
+
 {% endblock %}

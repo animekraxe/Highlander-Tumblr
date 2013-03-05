@@ -25,23 +25,18 @@
 {% block dash_head %} <i class="icon-th-large"></i> Posts {% endblock %}
 
 	{% block dashboard_content %}	
-		<div class="container span8" style="margin:auto;">
 		<form method='POST' action=".">
 		{% csrf_token %}
-			<div class="input-prepend input-append" style="padding:20px 20px;">
+			<div class="input-prepend input-append" style="margin: 0px; padding:0px 0px;">
 				<button class="btn btn-info" type="submit" name="searchbar" value="newest"> Newest </button>
 				<button class="btn btn-info" type="submit" name="searchbar" value="oldest"> Oldest </button>
-				<input class="span9" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
+				<input class="span8" name="searchbox" id="appendedInputButtons" type="text" placeholder="tags, seperated by, commas">
 				<button class="btn btn-primary" type="submit" name="searchbar" value="search"><i class="icon-search icon-white"></i> Search</button>
 			</div>
 		</form>
-		</div>
-
-		<div class="container span8" style="margin:auto;">
-			<div></div>
 
 				{% for post in posts %}
-				<div class="well container-fluid span" id="blogpost">
+				<div class="well container-fluid span" id="blogpost" style="margin: 5px 0px;">
 					
 					<p>
 						<strong>Viewable by: 	

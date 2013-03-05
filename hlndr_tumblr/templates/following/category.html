@@ -24,21 +24,6 @@
 {% block dash_head %} <i class="icon-bookmark"></i> {{ number_of_users_in_category }} People in {{ category_name }} {% endblock %}
 
 {% block dashboard_content %}
-<!--
-		<div class="span12">
-			<div></div>
-			{% for follower in users_in_category %}
-			<div class="well span3" id="follower">
-				{% if follower.avatar == "" %}
-				<img src="/static/img/default_avatar.png" style="height:40px; width:40px;"></img>
-				{% else %}
-				<img src="{{ follower.avatar }}" style="height:40px; width:40px;"></img>
-				{% endif %}
-       <a href="/{{ follower.user }}/"><strong>{{ follower.user }}</strong></a>
-			</div>
-			{% endfor %}
-		</div>
--->
         <script type="text/javascript">
         function confirmation() {
             var answer = confirm("Delete {{ category_name }}?")
@@ -55,10 +40,8 @@
         <!--<input type="button" value="Delete Category" onClick="window.location='/following/delete/{{ category_name }}' ">-->
 			</div>
 
-			<div class="span8" style="margin: auto;">
-				<div></div>
 				{% for post in posts %}
-					<div class="well container-fluid span" id="blogpost">
+					<div class="well container-fluid span" id="blogpost" style="margin: 5px 0px;">
 			
 						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
 
@@ -75,7 +58,6 @@
 			
 					</div>
 				{% endfor %}
-			</div>
 
 {% endblock %}
 

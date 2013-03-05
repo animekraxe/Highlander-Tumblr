@@ -164,4 +164,54 @@ def save_tags (post, tags):
 		
 	post.save();
 
+def calc_blog_score(interests, tags):
+	if len(tags) == 0: 
+		return 0
+	
+	score = 0
+	
+	for i in interests:
+		for j in tags:
+			if j == i:
+				score = score + 1
+	
+	return float(score)*float(score)/float(len(tags))
+	
+def rank_blogs (user):
+	interests = get_tag_list(user.userprofile.interests)
+	posts = []
+	
+	for i in User.objects.all():
+		posts += get_user_posts(i)
+	
+	result = []
+	
+	for post in posts:
+		tagline = post.tags.all()
+		tagstring = ""
+		for tag in tagline:
+			tagstring += tag.name + ','
+		tags = get_tag_list(tagstring)
+		score = calc_blog_score(interests, tags)
+			
+		if (len(result) < 30):
+			result.append((score, post));
+		else:
+			smallest = result[0][0]
+			smallest_index = 0
+			for i in range(0,len(result)):
+				if result[i][0] < smallest:
+					smallest = result[i][0]
+					smallest_index = i
+			result[smallest_index] = (score, post)
+	
+	result = sorted(result, key=lambda results: results[0])
+	result.reverse()
+	
+	final_result = []
+	
+	for i in range(0,len(result)):
+		final_result.append(result[i][1])
+			
+	return final_result
 
