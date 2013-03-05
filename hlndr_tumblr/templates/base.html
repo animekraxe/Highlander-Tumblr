@@ -12,10 +12,6 @@
 		
 		<style type="text/css">
 
-		#page-container {
-			background-color: #2D6CC0;
-		}
-
 		#breadcrumb-text {
 			text-decoration: none;
 		}
@@ -41,13 +37,16 @@
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap.css" />
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap-responsive.css" />
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/font-awesome.min.css" />
+		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/highlandr-style.css" />
 		<script src="http://api.html5media.info/1.1.5/html5media.min.js"></script>	
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
     <script src="http://malsup.github.com/jquery.form.js"></script>
 	</head>
 
-	<body id="page-container">
-		<div class="container-fluid" id="page-container">
+	<body id="public-page-container">
+		
+		<div class="container-fluid" id="{% block page-container %}public-page-container{% endblock %}">
+			
 			<div class="row-fluid" style="height: 10%;">
 				<div class="container">
 					<div class="row-fluid span8 offset2">
@@ -71,7 +70,9 @@
 			{% block content %}
 			{% endblock %}
 			</div>
-	</div>	
+		
+		</div>	
+
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>	
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/bootstrap.js"></script>
 		{% block extra_js %}
