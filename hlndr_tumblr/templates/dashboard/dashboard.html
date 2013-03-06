@@ -2,22 +2,6 @@
 
 {% block title %} Dashboard &middot; Highlandr{% endblock %}
 
-{% block extra_css %}
-
-<style type="text/css">
-	#blogpost {
-		background-color:#F1AB00;
-	}
-
-	.fill {
-		min-height: 100%;
-	}
-
-
-</style>
-
-{% endblock %}
-
 {% block page-container %}dashboard-page-container{% endblock %}
 
 {% block content %}
@@ -65,22 +49,6 @@
 		<hr style="border-color:#997D83;"> 
 
 			{% block dashboard_content %}
-			<style type="text/css">
-			.delete-notification {
-				text-decoration: none;
-				border: 0 none;
-				background-color: #FF7373;
-				color: #0088CC;
-			}
-
-			.delete-notification:hover {
-				text-decoration: none;
-				border: 0 none;
-				background-color: #FF7373;
-				color: #412C84;
-			}
-			</style>
-
 			<form method='POST' action=".">
 			{% csrf_token %}
 			{% for notification in user.notification_set.all %}
@@ -108,7 +76,7 @@
 
 				<div ddclass="container span12" style="margin: 0px;">
 				{% for post in posts %}
-					<div class="well container-fluid span" id="blogpost" style="margin: 5px 0px;">
+					<div class="well container-fluid span" id="dashboard-blogpost" style="margin: 5px 0px;">
 						
 						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
 
@@ -126,20 +94,6 @@
 					</div>
 				{% endfor %}
 				</div>
-
-<!--
-				<div class="container span4" style="margin-right: 0px;">
-					{% for post in recommendations %}
-					<div class="well container-fluid span" style="margin: 5px 0px; word-break: break-all;">
-						<a href="/{{ post.author.username }}/">{{ post.author.username }}</a>
-						<a href="/post/{{post.classname}}/{{post.id}}/">Post</a>
-						{% autoescape off %}
-						{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
-						{% endautoescape %}
-					</div>
-					{% endfor %}
-				</div>
--->
 
 			{% endblock %}
 		</div>

@@ -2,33 +2,6 @@
 
 {% block title %} Register &middot; Highlandr {% endblock %}
 
-{% block extra_css %}
-	<style type="text/css">
-	#page-container {
-		background-color:#2A4480;
-	}
-
-	.form-horizontal {
-		background-color:#eee;
-		padding: 20px 20px;
-		margin: 225px auto;
-		max-width: 300px;
-	}
-
-	.form-horizontal input[type="text"],
-	.form-horizontal input[type="password"] {
-		margin-bottom: 15px;
-		padding: 7px 9px;
-	}
-
-	.input-block-level {
-		margin-bottom:20px;
-		padding-bottom: 20px;
-	}
-		
-	</style>
-{% endblock %}
-
 {% block content %}
 <div class="well container span4 offset4">
 	<form action="/register/" method="POST">

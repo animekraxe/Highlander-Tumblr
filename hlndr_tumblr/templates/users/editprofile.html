@@ -2,20 +2,11 @@
 
 {% block title %} {{ user.username }} &middot; Highlandr {% endblock %}
 
-{% block extra_css %}
-<style type="text/css">
-#page-container{
-	background-color:#2A4480;
-}
-
-</style>
-{% endblock %}
-
 {% block content %}
 
-<div class="container span8">
+<div class="container span8" id="center">
 	<div class="row-fluid span12" style="min-height: 100%; margin:auto auto;">
-		<div class="well container-fluid span8" style="background-color:#e7dd68;">
+		<div class="well container-fluid span8" id="center" style="background-color:#e7dd68;">
 
 			<form action="/editprofile/" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				{% csrf_token %}

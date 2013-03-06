@@ -1,3 +1,20 @@
+body {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+div {
+	word-wrap: break-word;
+}
+
+#request-notice {
+	background-color: #AEFEAF;
+	border: solid 1px;
+	border-radius: 5px;
+	border-color: #eee;
+}
+
 #public-page-container {
 	background-color: #2A4480;
 }
@@ -5,3 +22,99 @@
 #dashboard-page-container {
 	background-color: #2D6CC0;
 }
+
+#breadcrumb-text {
+	text-decoration: none;
+}
+
+#center {
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+#blogname {
+	padding: 20px 20px;
+	background-color:#fffcdc;
+}	
+
+#blogpost {
+	padding: 20px 20px;
+	background-color:#e7dd68;
+}
+
+#dashboard-blogpost {
+	background-color:#e7dd68;
+}
+
+#blogcontainer {
+	background-color:#2A4480;
+}
+
+#profileblock {
+	background-color:#35C0CD;
+	padding: 50px 50px;
+	margin: 20px auto 0px;
+}
+
+.post_action_button {
+	text-decoration: none;
+	border: 0 none;
+	background-color: #e7dd68;
+	color: #412C84;
+}
+
+.post_action_button:hover {
+	text-decoration: none;
+	background-color: #e7dd68;
+	color: #4671D5;
+}
+
+.delete-notification {
+	text-decoration: none;
+	border: 0 none;
+	background-color: #FF7373;
+	color: #0088CC;
+}
+
+.delete-notification:hover {
+	text-decoration: none;
+	border: 0 none;
+	background-color: #FF7373;
+	color: #412C84;
+}
+
+.container-fluid .row-fluid { 
+	height: inherit; 
+}
+
+.fill {
+	min-height: 100%;
+}
+
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+	font-size: 15px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+
+.form-horizontal {
+	background-color:#eee;
+	padding: 20px 20px;
+	margin: 225px auto;
+	max-width: 300px;
+}
+
+.form-horizontal input[type="text"],
+.form-horizontal input[type="password"] {
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+
+.message-toggle {
+	border: None 0px;
+}
+
+

@@ -2,26 +2,6 @@
 
 {% block title %} Messages &middot; Highlandr {% endblock %}
 
-{% block extra_css %}
-<style>
-	#message-container {
-		background-color:#BAC397;
-		padding: 10px 10px 30px;
-		margin-bottom: 5px;
-	}
-
-	#title, #sender, #message{
-		margin: 0px;
-		padding: 0px;
-	}
-
-	.message-toggle {
-		border: None 0px;
-	}
-
-</style>
-{% endblock %}
-
 {% block dash_head %} <i class="icon-envelope-alt"></i> Messages {% endblock %}
 
 {% block dashboard_content %}
@@ -45,17 +25,6 @@
 		{{ message.message }}
 		</div>
 	</div>
-
-<!--
-	<div class="hero-unit span12 pull-right" id="message-container">
-		<h6 align="right" id="sender"> <a href="/{{ message.sender }}/">{{ message.sender }}</a></h6>	
-		<h5 id="title" style="line-height: 15px;"> 
-			{{ message.title }}
-			<hr style="margin: 10px 0px;">
-			{{ message.message }}
-		</h5>
-	</div>
--->
 {% endfor %}
 </div>
 

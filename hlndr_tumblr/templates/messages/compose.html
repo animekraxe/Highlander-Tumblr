@@ -8,7 +8,7 @@
 
 <form method='POST' action='.'>
 {% csrf_token %}
-<div class="span8">
+<div class="span8" id="center">
 	<strong>{{ invalid }}</strong>
 	<input type="text" class="input-block-level" name="recipient" placeholder="To:">
 	<input type="text" class="input-block-level" name="title" placeholder="Title">

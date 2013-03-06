@@ -9,27 +9,6 @@
 		<title>{% block title %} Highlander Tumblr {% endblock %}</title>
 		<!-- #2D6CC0 UCR Blue -->
 		<!-- #F1AB00 UCR Gold -->
-		
-		<style type="text/css">
-
-		#breadcrumb-text {
-			text-decoration: none;
-		}
-		
-		body {
-			height: 100%;
-			width: 100%;
-			position: absolute;
-		}
-
-		div {
-			word-wrap: break-word;
-		}
-
-		.container-fluid,
-		.row-fluid { height: inherit; }
-	
-		</style>
 
 		{% block extra_css %}
 		{% endblock %}	
@@ -43,9 +22,9 @@
     <script src="http://malsup.github.com/jquery.form.js"></script>
 	</head>
 
-	<body id="public-page-container">
+	<body id="{% block page-container %}public-page-container{% endblock %}">
 		
-		<div class="container-fluid" id="{% block page-container %}public-page-container{% endblock %}">
+		<div class="container-fluid">
 			
 			<div class="row-fluid" style="height: 10%;">
 				<div class="container">

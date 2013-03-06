@@ -2,32 +2,20 @@
 
 {% block title %} Friends &middot; Highlandr {% endblock %}
 
-{% block extra_css %}
-<style type="text/css">
-.request-hr {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-</style>
-{% endblock %}
-
 {% block dash_head %} <i class="icon-group"></i> Friends {% endblock %}
 
 {% block dashboard_content %}
 
 {% for request in incoming_requests %}
-<div style="background-color:#AEFEAF;">
-<hr class="request-hr">
+<div id="request-notice"> 
 <form method="POST" action=".">
 {% csrf_token %}
-<p class="lead">
+<p class="lead" style="margin: 10px;">
 		Friend request from : <a href="/{{ request.sender.username }}/"> {{ request.sender.username }} </a>
-		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="delete_{{request.id}}"><i class="icon-remove"></i> Reject </button>
-		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="accept_{{request.id}}"><i class="icon-ok"></i> Accept </button>
+		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="delete_{{request.id}}" style="margin-left:5px;"><i class="icon-remove"></i> Reject </button>
+		<button class="pull-right btn btn-info" type="submit" name="friend_request_action" value="accept_{{request.id}}" style="margin-left:5px;"><i class="icon-ok"></i> Accept </button>
 </p>
 </form>
-<hr class="request-hr">
 </div>
 {% endfor %}
 
