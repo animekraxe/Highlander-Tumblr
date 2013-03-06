@@ -3,7 +3,7 @@
 {% block title %} New Post &middot; Highlandr {% endblock %}
 
 {% block dashboard_content %}
-	<form action="/new/link/" method="POST" class="form-horizontal">
+	<form action="/new/link/" method="POST" class="">
 		{% csrf_token %}
 		<h2><i class="icon-link"></i> Make a link post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}

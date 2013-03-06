@@ -4,6 +4,9 @@ from blog.constants import *
 class CommentForm(forms.Form):
 	comment = forms.CharField(required=True)
 
+class ReblogForm(forms.Form):
+	description = forms.CharField(required=True)
+
 class TextForm(forms.Form):
 	title = forms.CharField(max_length=100, required=False)
 	text = forms.CharField(required=True)

@@ -1,5 +1,5 @@
 # Create your views here
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
@@ -17,6 +17,12 @@ amazon_url = "https://s3-us-west-1.amazonaws.com/highlander-tumblr-test-bucket/"
 
 def post_page(request, post_type, post_id):
 	exec "post = %s.objects.get(id=%d)" % (post_type, int(post_id))
+
+	posts = [post]
+	posts = filter_posts_by_privacy(request.user, posts)
+	if len(posts) == 0:
+		raise Http404
+	
 	if request.method == 'POST':
 		if not request.user.is_authenticated():
 			return HttpResponseRedirect('/login/')
@@ -65,6 +71,7 @@ def blogpage(request,username):
 
 	posts = get_user_posts(author)
 	posts = filter_posts_by_privacy(request.user, posts)
+
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
 	

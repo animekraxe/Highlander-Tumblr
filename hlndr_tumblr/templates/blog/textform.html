@@ -3,7 +3,7 @@
 {% block title %} New Post &middot; Highlandr {% endblock %}
 
 {% block dashboard_content %}
-	<form action="/new/text/" method="POST" class="form-horizontal">
+	<form action="/new/text/" method="POST">
 		{% csrf_token %}
 		<h2><i class="icon-font"></i> Make a text post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}

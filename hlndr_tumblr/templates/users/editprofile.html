@@ -8,7 +8,7 @@
 	<div class="row-fluid span12" style="min-height: 100%; margin:auto auto;">
 		<div class="well container-fluid span8" id="center" style="background-color:#e7dd68;">
 
-			<form action="/editprofile/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form action="/editprofile/" method="POST" enctype="multipart/form-data"> 
 				{% csrf_token %}
 				<h3> Profile Image (200 x 200): </h3>
 				{{ imageform.image }}
@@ -17,7 +17,7 @@
 
 			<hr>
 
-			<form action="/editprofile/" method="POST" class="form-horizontal">
+			<form action="/editprofile/" method="POST">
 				{% csrf_token %}
 				<strong>{{ blog_message }}</strong>
 				<h4> Blog Title: </h4>
@@ -46,7 +46,7 @@
 			
 			<hr>
 
-			<a href="/dashboard/" class="btn btn-block-level"> Cancel </a>
+			<a href="/{{ user.username }}/profile/" class="btn btn-block-level"> Cancel </a>
 
 		</div>
 	</div>

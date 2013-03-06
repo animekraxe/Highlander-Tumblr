@@ -29,6 +29,8 @@ def home(request):
 		random.shuffle(posts)
 		posts = posts[:30]
 	
+	posts = filter_posts_by_privacy(request.user, posts)
+
 	return render_to_response('hlndr_tumblr/homepage.html',
 							  {'posts':posts, 'recommended_enable':recommended_enable},
 							  context_instance=RequestContext(request))	

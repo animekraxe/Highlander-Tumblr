@@ -3,7 +3,7 @@
 {% block title %} New Post &middot; Highlandr {% endblock %}
 
 {% block dashboard_content %}
-	<form action="/new/audio/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+	<form action="/new/audio/" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<h2><i class="icon-headphones"></i> Make an audio post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}

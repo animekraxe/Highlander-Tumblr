@@ -13,6 +13,43 @@
 			</div>
 
 				{% for post in posts %}
+				<div class="modal hide fade" id="modal_{{post.classname}}_{{post.id}}">
+					<div class="modal-body">
+						{% autoescape off %}
+						{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
+						{% endautoescape %}
+
+						<h5>
+						{% for tag in post.tags.all %}
+						<small style="color:#EC3B86;">#{{ tag.name }} </small>
+						{% endfor %}
+						</h5>
+
+					</div>
+					<div class="modal-footer">
+					<form id="reblog_action_form" action="." method="POST">
+						{% csrf_token %}
+						{% if post.classname == 'TextPost' or post.classname == 'LinkPost' or post.classname == 'ChatPost' %}
+						<input type="text" class="input-block-level" name="title" value="{{post.title}}" placeholder="Title"></input>
+						{% endif %}
+						{% if post.classname == 'LinkPost' %}
+						<input type="url" class="input-block-level" name="link" value="{{post.link}}" placeholder="URL"></input>
+						{% endif %}
+						{% if post.classname != 'QuotePost' %}
+						<textarea class="span" rows="8" name="description">{{post.description}}{{post.caption}}{{post.text}}</textarea>
+						{% endif %}
+						{% if post.classname == 'QuotePost' %}
+						<textarea class="span" rows="6" name="quote" placeholder="Quote">{{post.quote}}</textarea>
+						<textarea class="span" rows="6" name="source" placeholder="Source (optional)">{{post.source}}</textarea>
+						{% endif %}
+						<input type="text" class="input-block-level" name="tags" placeholder="Tags, separated, by, commas, (optional)"></input>
+						<button href="." class="btn btn-primary pull-left" type="submit" name="reblog_action" value="reblog_{{post.classname}}_{{post.id}}">
+						<i class="icon-retweet"></i> Reblog 
+						</button>
+					</form>
+					</div>
+				</div>				
+
 				<div class="well container-fluid span" id="blogpost">
 	
 					<form id="post_action_form" align="right" action="/postaction/{{author.username}}/" method="POST">
@@ -25,7 +62,7 @@
 							<i class="icon-heart"></i> {{ post.like_set.count }}
 						</button>
 
-						<button href="." type="submit" name="post_action" value="reblog_{{post.classname}}_{{post.id}}" class="post_action_button">
+						<button href="#modal_{{post.classname}}_{{post.id}}" data-toggle="modal" type="submit" name="post_action" value="reblog_{{post.classname}}_{{post.id}}" class="post_action_button">
 							<i class="icon-retweet"></i>
 						</button>
 

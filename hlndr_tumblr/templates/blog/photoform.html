@@ -3,7 +3,7 @@
 {% block title %} New Post &middot; Highlandr{% endblock %}
 
 {% block dashboard_content %}
-	<form action="/new/photo/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+	<form action="/new/photo/" method="POST" enctype="multipart/form-data" class="">
 		{% csrf_token %}
 		<h2><i class="icon-camera"></i> Make a photo post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}

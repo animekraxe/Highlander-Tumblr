@@ -3,7 +3,7 @@
 {% block title %} New Post &middot; Highlandr {% endblock %}
 
 {% block dashboard_content %}
-	<form action="/new/chat/" method="POST" class="form-horizontal">
+	<form action="/new/chat/" method="POST" class="">
 		{% csrf_token %}
 		<h2><i class="icon-comments"></i> Make a chat post </h2>
 		<strong>Viewable for</strong> {{ form.privacy }}

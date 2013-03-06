@@ -21,6 +21,7 @@ class TextPost(models.Model):
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('TextPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, title:%s, post_date:%s" % (self.author.username, 
@@ -43,6 +44,7 @@ class PhotoPost(models.Model):
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('PhotoPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, filename:%s, post_date:%s" % (self.author.username,
@@ -64,8 +66,8 @@ class VideoPost(models.Model):
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
-
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('VideoPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, filename:%s, post_date:%s" % (self.author.username,
@@ -90,8 +92,8 @@ class AudioPost(models.Model):
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
-
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('AudioPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, filename:%s, post_date:%s" % (self.author.username,
@@ -115,8 +117,8 @@ class QuotePost(models.Model):
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
-
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('QuotePost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, post_date:%s" % (self.author.username, self.post_date)
@@ -136,8 +138,8 @@ class LinkPost(models.Model):
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
-
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('LinkPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, title:%s, post_date:%s" % (self.author.username,
@@ -160,8 +162,8 @@ class ChatPost(models.Model):
 	post_date = models.DateTimeField(auto_now_add=True)
 	author = models.ForeignKey(User)
 	privacy = models.IntegerField(choices=privacy_choices, default=PRIVACY_ALL)
-
 	tags = TaggableManager()
+	reblogs = models.ManyToManyField('ChatPost', related_name="list_parent")
 
 	def __unicode__(self):
 		return "author:%s, title:%s, post_date:%s" % (self.author.username,
