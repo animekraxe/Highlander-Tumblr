@@ -5,7 +5,18 @@ class CommentForm(forms.Form):
 	comment = forms.CharField(required=True)
 
 class ReblogForm(forms.Form):
-	description = forms.CharField(required=True)
+	title = forms.CharField(max_length=100, required=False)
+	description = forms.CharField(required=False)
+	
+	quote = forms.CharField(required=False)
+	source = forms.CharField(required=False)
+
+	link = forms.URLField(required=False)
+
+	tags = forms.CharField(required=False)
+	privacy = forms.ChoiceField(widget=forms.Select(attrs={'class':'span3'}),
+								choices=privacy_choices,
+								required=True)
 
 class TextForm(forms.Form):
 	title = forms.CharField(max_length=100, required=False)

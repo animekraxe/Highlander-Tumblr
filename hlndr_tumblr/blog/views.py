@@ -38,6 +38,88 @@ def post_page(request, post_type, post_id):
 							  {'post':post, 'commentform':form, 'user':request.user},
 							  context_instance=RequestContext(request))
 
+def reblog_action(request, username):
+	if request.method == 'POST':
+		if 'reblog_action' in request.POST:
+			values = request.POST['reblog_action'].split('_')
+			post_type = values[1]
+			post_id = int(values[2])
+			exec "post = %s.objects.get(id=%d)" % (post_type, post_id)
+			
+			form = ReblogForm(request.POST)
+			
+			if form.is_valid():
+				author = request.user
+				
+				title = form.cleaned_data['title']
+				description = form.cleaned_data['description']
+
+				quote = form.cleaned_data['quote']
+				source = form.cleaned_data['source']
+
+				link = form.cleaned_data['link']
+
+				tags = form.cleaned_data['tags']
+				privacy = form.cleaned_data['privacy']
+
+			newpost = None
+			if post.classname() == 'TextPost':
+				if description == "":
+					return "No text in post"
+				newpost = TextPost.objects.create(title=title,
+						    					  text=description,
+												  privacy=privacy,
+												  author=author)
+			elif post.classname() == 'QuotePost':
+				if quote == "":
+					return "No quote in post"
+				newpost = QuotePost.objects.create(title=title,
+							  	 		   	 	   quote=quote,
+										 		   source=source,
+										 		   privacy=privacy,
+										 		   author=author)
+			elif post.classname() == 'LinkPost':
+				if link == "":
+					return "No link in post"
+				newpost = LinkPost.objects.create(title=title,
+												  link=link,
+												  description=description,
+												  privacy=privacy,
+												  author=author)
+			elif post.classname() == 'ChatPost':
+				if description == "":
+					return "No chat in post"
+				newpost = ChatPost.objects.create(title=title,
+												  chat=description,
+												  privacy=privacy,
+												  author=author)
+			elif post.classname() == 'PhotoPost':
+				newpost = PhotoPost.objects.create(filename=post.filename,
+												   url=post.url,
+												   caption=description,
+												   privacy=privacy,
+												   author=author)
+			elif post.classname() == 'AudioPost':
+				newpost = AudioPost.objects.create(filename=post.filename,
+												   url=post.url,
+												   description=description,
+												   privacy=privacy,
+												   author=author)
+			elif post.classname() == 'VideoPost':
+				newpost = VideoPost.objects.create(filename=post.filename,
+												   url=post.url,
+												   description=description,
+												   privacy=privacy,
+												   author=author)
+			else:
+				raise Http404
+
+			if newpost is not None:
+				save_tags(newpost, tags)
+				post.reblogs.add(newpost)
+			
+			return None
+
 @login_required(login_url='/login/')
 def blog_post_action(request, username):
 	if request.method == 'POST':
@@ -61,6 +143,13 @@ def blog_post_action(request, username):
 
 # displays a users blog page if user exists
 def blogpage(request,username):
+	reblog_error = False
+	reblog_message = ""
+	if request.method == 'POST':
+		reblog_message = reblog_action(request, username)
+		if reblog_message is not None:
+			reblog_error = True
+
 	author = get_object_or_404(User,username=username)
 	blog = get_object_or_404(Blog, author=author)
 
@@ -74,9 +163,12 @@ def blogpage(request,username):
 
 	# sort from oldest to newest, then reverse to get latest
 	posts = reversed(sorted(posts, key=lambda post: post.post_date))
+
+	reblog_form = ReblogForm()
 	
 	return render_to_response('blog/blogpage.html',
-							  {'author':author, 'posts':posts, 'blog':blog, 'is_friend':is_friend},
+							  {'author':author, 'posts':posts, 'blog':blog, 'is_friend':is_friend,
+							   'reblog_error':reblog_error, 'reblog_error_message':reblog_message, 'reblog_form':reblog_form},
 							   context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
@@ -86,11 +178,9 @@ def new_text_post(request):
 		form = TextForm(request.POST)
 		if form.is_valid():
 			title = form.cleaned_data['title']
-			slug = slugify(title)
 			text = form.cleaned_data['text']
 			privacy = form.cleaned_data['privacy']	
 			post = TextPost.objects.create(title=title,
-										   slug=slug,
 										   text=text,
 										   privacy=privacy,
 										   author=request.user,)

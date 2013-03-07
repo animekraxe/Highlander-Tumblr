@@ -12,9 +12,27 @@
 				<h2> {{ blog.title }}</h2>
 			</div>
 
+				{% if reblog_error %}
+				<script type="text/javascript">
+					$(window).load(function() {
+							$('#modal_reblog_error').modal('show');
+							});
+				</script>
+
+				<div class="modal hide fade" id="modal_reblog_error">
+					<div class="modal-body">
+						<h4 style="color: #B94A48;"> Could not reblog:<h4>
+						<h6 style="color: #B94A48;">{{ reblog_error_message }}<h6>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-primary" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+				{% endif %}
+				
 				{% for post in posts %}
 				<div class="modal hide fade" id="modal_{{post.classname}}_{{post.id}}">
-					<div class="modal-body">
+					<div class="modal-body" style="max-height: 300px;">
 						{% autoescape off %}
 						{% filter linebreaksbr %}{{ post.custom_html }}{% endfilter %}
 						{% endautoescape %}
@@ -29,8 +47,9 @@
 					<div class="modal-footer">
 					<form id="reblog_action_form" action="." method="POST">
 						{% csrf_token %}
+						<strong>Viewable by:</strong> {{ reblog_form.privacy }}
 						{% if post.classname == 'TextPost' or post.classname == 'LinkPost' or post.classname == 'ChatPost' %}
-						<input type="text" class="input-block-level" name="title" value="{{post.title}}" placeholder="Title"></input>
+						<input type="text" class="input-block-level" name="title" value="{{post.title}}" placeholder="Title (optional)"></input>
 						{% endif %}
 						{% if post.classname == 'LinkPost' %}
 						<input type="url" class="input-block-level" name="link" value="{{post.link}}" placeholder="URL"></input>
@@ -63,7 +82,7 @@
 						</button>
 
 						<button href="#modal_{{post.classname}}_{{post.id}}" data-toggle="modal" type="submit" name="post_action" value="reblog_{{post.classname}}_{{post.id}}" class="post_action_button">
-							<i class="icon-retweet"></i>
+							<i class="icon-retweet"></i> {{ post.reblogs.count }}
 						</button>
 
 						<button href="." type="submit" name="post_action" value="favorite_{{post.classname}}_{{post.id}}" class="post_action_button">
